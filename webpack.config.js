@@ -26,7 +26,9 @@ module.exports = (_, config) => {
       }),
       new CleanWebpackPlugin(),
       !dev && new BundleAnalyzerPlugin({ analyzerMode: "static" }),
-      new Dotenv(),
+      new Dotenv({
+        systemvars: !dev,
+      }),
     ].filter(Boolean),
     module: {
       rules: [
