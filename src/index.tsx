@@ -12,6 +12,7 @@ import { apolloClient } from "./apollo/client"
 import { AppStateProvider } from "./components/AppState"
 import { SignOut } from "./pages/sign-out"
 import { PageLoader } from "./components/PageLoader"
+import TestdevPage from "./pages/dev"
 
 const Index = lazy(() => import("./pages/index"))
 const LogIn = lazy(() => import("./pages/log-in"))
@@ -36,6 +37,9 @@ const App = () => {
         <Suspense fallback={<PageLoader />}>
           <Router>
             <Index path="/" />
+
+            <TestdevPage path="dev" />
+
             <LogIn path="log-in" />
             <SignUp path="sign-up" />
             <SignOut path="sign-out" />

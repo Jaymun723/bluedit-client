@@ -1,15 +1,10 @@
 import React from "react"
 import { NavBar } from "./Navbar"
 import { Helmet } from "react-helmet"
-import { css } from "linaria"
 
 const DEFAULT_TITLE = "Bluedit"
 const DEFAULT_DESCRIPTION = "Bluedit a clone the famous reddit website, built more for the challenge than the fame."
 const SITE_NAME = "Bluedit, share things."
-
-const mediumContainer = css`
-  max-width: 560px;
-`
 
 interface BaseLayoutProps {
   title?: string
@@ -30,7 +25,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (props) => {
       </Helmet>
       <NavBar featuredBluedits={[{ id: "1", name: "Meme" }]} />
       <section className="section">
-        <div className={`container ${mediumContainer}`}>{props.children}</div>
+        <div className="container">{props.children}</div>
       </section>
     </>
   )
