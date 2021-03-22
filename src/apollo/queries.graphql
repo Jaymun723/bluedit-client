@@ -1,0 +1,149 @@
+query MainFeed($sort: SortType!) {
+  mainFeed(sort: $sort) {
+    id
+  }
+}
+
+query PersonalFeed($sort: SortType!) {
+  personalFeed(sort: $sort) {
+    id
+  }
+}
+
+query UserSettings {
+  me {
+    id
+    name
+    email
+    bio
+  }
+}
+
+query PostPreview($id: String!) {
+  post(id: $id) {
+    id
+    title
+    content
+    contentType
+    voteCount
+    commentCount
+    bluedit {
+      id
+      name
+    }
+    author {
+      id
+      name
+    }
+    createdAt
+    userVote {
+      id
+      up
+    }
+  }
+}
+
+query BlueditPreview($id: String, $name: String) {
+  bluedit(id: $id, name: $name) {
+    id
+    name
+    postCount
+    description
+    userSubscribed
+    subscriberCount
+  }
+}
+
+query UserPreview($id: String, $name: String) {
+  user(id: $id, name: $name) {
+    id
+    bio
+    name
+    karma
+    createdAt
+    postCount
+  }
+}
+
+query CommentPreview($id: String!) {
+  comment(id: $id) {
+    id
+    deleted
+    content
+    userVote {
+      id
+      up
+    }
+    createdAt
+    voteCount
+    author {
+      id
+      name
+    }
+  }
+}
+
+query Search($query: String!) {
+  search(query: $query) {
+    __typename
+    ... on Bluedit {
+      id
+    }
+    ... on User {
+      id
+    }
+    ... on Post {
+      id
+    }
+  }
+}
+
+query MyBluedits {
+  me {
+    bluedits {
+      id
+      name
+    }
+  }
+}
+
+query AllBluedits {
+  bluedits {
+    id
+  }
+}
+
+query AllUsers {
+  users {
+    id
+  }
+}
+
+query BlueditFeed($name: String!, $sort: SortType!) {
+  blueditFeed(name: $name, sort: $sort) {
+    id
+  }
+}
+
+query UserPosts($name: String!) {
+  user(name: $name) {
+    posts {
+      id
+    }
+  }
+}
+
+query PostComments($id: String!) {
+  post(id: $id) {
+    id
+    comments {
+      id
+      childComments {
+        id
+      }
+      comment {
+        id
+      }
+    }
+  }
+}

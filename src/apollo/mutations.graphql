@@ -1,0 +1,132 @@
+mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    token
+    user {
+      id
+      name
+    }
+  }
+}
+
+mutation CreateAccount($name: String!, $email: String!, $password: String!) {
+  createAccount(name: $name, email: $email, password: $password) {
+    token
+    user {
+      id
+      name
+    }
+  }
+}
+
+mutation UpdateUserSettings($name: String, $email: String, $bio: String, $password: String) {
+  changeAccountSettings(name: $name, email: $email, bio: $bio, password: $password) {
+    id
+    name
+    email
+    bio
+  }
+}
+
+mutation PostVote($up: Boolean!, $postId: String!) {
+  vote(up: $up, postId: $postId) {
+    id
+    up
+    post {
+      id
+      voteCount
+      userVote {
+        id
+        up
+      }
+    }
+  }
+}
+
+mutation CommentVote($up: Boolean!, $postId: String!, $commentId: String!) {
+  vote(up: $up, postId: $postId, commentId: $commentId) {
+    id
+    up
+    comment {
+      id
+      voteCount
+      userVote {
+        id
+        up
+      }
+    }
+  }
+}
+
+mutation Subscribe($id: String!) {
+  subscribe(id: $id) {
+    id
+    userSubscribed
+    subscriberCount
+  }
+}
+
+mutation Unsubscribe($id: String!) {
+  unsubscribe(id: $id) {
+    id
+    userSubscribed
+    subscriberCount
+  }
+}
+
+mutation CreatePost($input: CreatePostInput!) {
+  createPost(input: $input) {
+    id
+  }
+}
+
+mutation Comment($postId: String!, $commentId: String, $content: String!) {
+  comment(postId: $postId, commentId: $commentId, content: $content) {
+    id
+    post {
+      id
+      commentCount
+      comments {
+        id
+        childComments {
+          id
+        }
+        comment {
+          id
+        }
+      }
+    }
+  }
+}
+
+mutation RemoveComment($id: String!) {
+  removeComment(id: $id) {
+    id
+    deleted
+    post {
+      id
+      commentCount
+      comments {
+        id
+        childComments {
+          id
+        }
+        comment {
+          id
+        }
+      }
+    }
+  }
+}
+
+mutation RemovePost($id: String!) {
+  removePost(id: $id) {
+    id
+  }
+}
+
+mutation EditComment($id: String!, $content: String!) {
+  editComment(id: $id, content: $content) {
+    id
+    content
+  }
+}
