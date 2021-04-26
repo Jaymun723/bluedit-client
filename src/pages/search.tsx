@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import { BaseLayout } from "../components/BaseLayout"
-// import { useSearchParams, createSearchParams } from "@reach/router"
 import { RouteComponentProps } from "@reach/router"
 import { useSearchQuery } from "../generated/graphql"
-import { BlueditPreview } from "../components/BlueditPreview"
-import { PostPreview } from "../components/PostPreview"
-import { UserPreview } from "../components/UserPreview"
+import { BlueditPreview } from "../components/Bluedit/BlueditPreview"
+import { PostPreview } from "../components/Post/PostPreview"
+import { UserPreview } from "../components/User/UserPreview"
 
 const createSearchParams = (obj: { [x: string]: string }) => {
   const { searchParams } = new URL("https://example.com/")
@@ -45,7 +44,7 @@ const Search: React.FC<RouteComponentProps> = () => {
   return (
     <BaseLayout title="Search">
       <form
-        className="box my-1"
+        className="box my-2"
         onSubmit={(e) => {
           e.preventDefault()
           setQuery(tempQuery)
@@ -71,17 +70,26 @@ const Search: React.FC<RouteComponentProps> = () => {
           </div>
         </div>
       </form>
-      {data &&
-        data.search.map((e) => {
-          switch (e.__typename) {
-            case "Bluedit":
-              return <BlueditPreview id={e.id} key={e.id} />
-            case "Post":
-              return <PostPreview id={e.id} key={e.id} />
-            case "User":
-              return <UserPreview id={e.id} key={e.id} />
-          }
-        })}
+      <div className="container is-flex is-flex-direction-column is-align-items-center">
+        {data ? (
+          data.search.length === 0 ? (
+            <p className="title">Nothing found :(</p>
+          ) : (
+            data.search.map((e) => {
+              switch (e.__typename) {
+                case "Bluedit":
+                  return <BlueditPreview id={e.id} key={e.id} />
+                case "Post":
+                  return <PostPreview id={e.id} key={e.id} />
+                case "User":
+                  return <UserPreview id={e.id} key={e.id} />
+              }
+            })
+          )
+        ) : (
+          <button className="button is-white is-loading is-large" />
+        )}
+      </div>
     </BaseLayout>
   )
 }

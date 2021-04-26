@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+$card-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+$card-content-padding: 1rem;
+
+@import "bulma";
+@import "bulma-pageloader";
+
+.is-mega-large {
+  font-size: 5rem;
+}
+
+.is-post-card {
+  max-width: 600px;
+  width: 100%;
+}
+
+.is-website-url {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -35,10 +35,33 @@ const myFetch: WindowOrWorkerGlobalScope["fetch"] = (input, ops = {}) => {
   return fetch(input, ops)
 }
 
-console.log(SERVER_URL)
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        bluedits: {
+          keyArgs: false,
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming]
+          },
+        },
+      },
+    },
+    User: {
+      fields: {
+        posts: {
+          keyArgs: false,
+          merge(existing = [], incoming) {
+            return [...existing, ...incoming]
+          },
+        },
+      },
+    },
+  },
+})
 
 export const apolloClient = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache,
   //@ts-ignore
   link: createUploadLink({
     fetch: myFetch,

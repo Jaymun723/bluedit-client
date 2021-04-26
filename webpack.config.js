@@ -1,6 +1,6 @@
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
@@ -25,7 +25,7 @@ module.exports = (_, config) => {
         template: "./src/index.html",
       }),
       new CleanWebpackPlugin(),
-      !dev && new BundleAnalyzerPlugin({ analyzerMode: "static" }),
+      // !dev && new BundleAnalyzerPlugin({ analyzerMode: "static" }),
       new Dotenv({
         systemvars: !dev,
       }),
@@ -34,13 +34,7 @@ module.exports = (_, config) => {
       rules: [
         {
           test: /\.(j|t)sx?$/,
-          use: [
-            { loader: "babel-loader" },
-            {
-              loader: "linaria/loader",
-              options: { sourceMap: dev },
-            },
-          ],
+          use: [{ loader: "babel-loader" }],
         },
         {
           test: /\.css$/,
@@ -48,13 +42,29 @@ module.exports = (_, config) => {
             {
               loader: MiniCssExtractPlugin.loader,
               options: {
-                hmr: dev,
+                // hmr: dev,
               },
             },
             {
               loader: "css-loader",
               options: { sourceMap: dev },
             },
+          ],
+        },
+        {
+          test: /\.s[ac]ss$/i,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                // hmr: dev,
+              },
+            },
+            {
+              loader: "css-loader",
+              options: { sourceMap: dev },
+            },
+            "sass-loader",
           ],
         },
         {
@@ -73,7 +83,7 @@ module.exports = (_, config) => {
       // publicPath: "/",
     },
     optimization: {
-      minimizer: [!dev && new TerserJSPlugin({}), !dev && new OptimizeCSSAssetsPlugin({})].filter(Boolean),
+      minimizer: [!dev && new TerserJSPlugin({}), !dev && new CssMinimizerPlugin()].filter(Boolean),
       runtimeChunk: {
         name: "runtime",
       },

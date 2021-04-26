@@ -3,7 +3,8 @@ import { NavBar } from "./Navbar"
 import { Helmet } from "react-helmet"
 
 const DEFAULT_TITLE = "Bluedit"
-const DEFAULT_DESCRIPTION = "Bluedit a clone the famous reddit website, built more for the challenge than the fame."
+const DEFAULT_DESCRIPTION =
+  "Bluedit a clone the famous reddit website, built more for the challenge than the fame."
 const SITE_NAME = "Bluedit, share things."
 
 interface BaseLayoutProps {
@@ -12,7 +13,8 @@ interface BaseLayoutProps {
   description?: string
 }
 export const BaseLayout: React.FC<BaseLayoutProps> = (props) => {
-  const title = props.completTitle || (props.title ? `${props.title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE)
+  const title =
+    props.completTitle || (props.title ? `${props.title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE)
   return (
     <>
       <Helmet>
@@ -23,7 +25,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (props) => {
         <meta property="og:url" content={location.href} />
         <meta property="og:site_name" content={SITE_NAME} />
       </Helmet>
-      <NavBar featuredBluedits={[{ id: "1", name: "Meme" }]} />
+      <NavBar />
       <section className="section">
         <div className="container">{props.children}</div>
       </section>

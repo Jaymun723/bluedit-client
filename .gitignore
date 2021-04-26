@@ -1,8 +1,6 @@
 graphql.schema.json
-.linaria-cache/
 **/generated/
 node_modules/
+.netlify
 dist/
 .env
-# Local Netlify folder
-.netlify

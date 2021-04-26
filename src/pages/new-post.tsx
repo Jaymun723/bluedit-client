@@ -3,7 +3,7 @@ import { useAppState } from "../components/AppState"
 import { useNavigate, Link, RouteComponentProps } from "@reach/router"
 import { BaseLayout } from "../components/BaseLayout"
 import { ContentType, useMyBlueditsQuery, useCreatePostMutation } from "../generated/graphql"
-import { withActive } from "../components/utils"
+import { c } from "../utils"
 import { SubmitButton } from "../components/ConnectionForm"
 import { ApolloError } from "@apollo/client"
 import { ImagePicker } from "../components/ImagePicker"
@@ -53,7 +53,8 @@ const BlueditSelector: React.FC<BlueditSelectorProps> = (props) => {
         ) : (
           data && (
             <p className="is-size-5 has-text-danger">
-              You haven't subscribed to any Bluedit ! Go to <Link to="/b">here</Link> to find Bluedit.
+              You haven't subscribed to any Bluedit ! Go to <Link to="/b">here</Link> to find
+              Bluedit.
             </p>
           )
         )}
@@ -70,7 +71,7 @@ const SelectType: React.FC<SelectTypeProps> = (props) => {
   return (
     <div className="tabs is-boxed is-centered">
       <ul>
-        <li className={withActive(props.value === ContentType.Image)}>
+        <li className={c(props.value === ContentType.Image && "is-active")}>
           <a onClick={() => props.onChange(ContentType.Image)}>
             <span className="icon">
               <ion-icon name="image-outline"></ion-icon>
@@ -78,7 +79,7 @@ const SelectType: React.FC<SelectTypeProps> = (props) => {
             <span>Image</span>
           </a>
         </li>
-        <li className={withActive(props.value === ContentType.Link)}>
+        <li className={c(props.value === ContentType.Link && "is-active")}>
           <a onClick={() => props.onChange(ContentType.Link)}>
             <span className="icon is-small">
               <ion-icon name="link-outline"></ion-icon>
@@ -86,7 +87,7 @@ const SelectType: React.FC<SelectTypeProps> = (props) => {
             <span>Link</span>
           </a>
         </li>
-        <li className={withActive(props.value === ContentType.Text)}>
+        <li className={c(props.value === ContentType.Text && "is-active")}>
           <a onClick={() => props.onChange(ContentType.Text)}>
             <span className="icon is-small">
               <ion-icon name="text-outline"></ion-icon>

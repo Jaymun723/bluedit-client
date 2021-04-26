@@ -7,7 +7,7 @@ interface AppState {
   user?: { id: string; name: string }
 }
 
-const initialState: AppState = {
+export const initialState: AppState = {
   sort: SortType.Trending,
   user: getUser(),
 }
@@ -53,7 +53,9 @@ const appReducer: Reducer<AppState, Action> = (prevState, action) => {
 export const StateContext = createContext([initialState, () => {}] as [AppState, Dispatch<Action>])
 
 export const AppStateProvider: React.FC = ({ children }) => (
-  <StateContext.Provider value={useReducer(appReducer, initialState)}>{children}</StateContext.Provider>
+  <StateContext.Provider value={useReducer(appReducer, initialState)}>
+    {children}
+  </StateContext.Provider>
 )
 
 export const useAppState = () => useContext(StateContext)

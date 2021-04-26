@@ -1,11 +1,10 @@
 import React, { useState } from "react"
 import { Link, useLocation, useNavigate } from "@reach/router"
-import { withActive } from "./utils"
+import { c } from "../utils"
 import { useAppState } from "./AppState"
 
 interface FeedDropdownProps {
   pathname: string
-  featuredBluedits: NavBarProps["featuredBluedits"]
   isLogged: boolean
 }
 const FeedDropdown: React.FC<FeedDropdownProps> = (props) => {
@@ -18,19 +17,24 @@ const FeedDropdown: React.FC<FeedDropdownProps> = (props) => {
           ? "Personal Feed"
           : props.pathname.startsWith("/b/")
           ? props.pathname
+          : props.pathname === "/b"
+          ? "Bluedits List"
           : "Feeds"}
       </a>
       <div className="navbar-dropdown is-boxed">
-        <Link to="/" className={withActive("navbar-item", props.pathname === "/")}>
+        <Link to="/" className={c("navbar-item", props.pathname === "/" && "is-active")}>
           Popular feed
         </Link>
         {props.isLogged && (
-          <Link to="/personal-feed" className={withActive("navbar-item", props.pathname === "/personal-feed")}>
+          <Link
+            to="/personal-feed"
+            className={c("navbar-item", props.pathname === "/personal-feed" && "is-active")}
+          >
             Personal feed
           </Link>
         )}
         <hr className="navbar-divider" />
-        <Link to="/b" className={withActive("navbar-item", props.pathname === "/b")}>
+        <Link to="/b" className={c("navbar-item", props.pathname === "/b" && "is-action")}>
           Bluedits List
         </Link>
         {/* {props.featuredBluedits.map(({ id, name }) => (
@@ -43,9 +47,7 @@ const FeedDropdown: React.FC<FeedDropdownProps> = (props) => {
   )
 }
 
-interface NavBarProps {
-  featuredBluedits: { id: string; name: string }[]
-}
+interface NavBarProps {}
 export const NavBar: React.FC<NavBarProps> = (props) => {
   const [isMenuActive, setIsMenuActive] = useState(false)
   const [{ user }] = useAppState()
@@ -64,7 +66,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
 
           <a
             role="button"
-            className={withActive("navbar-burger", isMenuActive)}
+            className={c("navbar-burger", isMenuActive && "is-active")}
             aria-label="menu"
             aria-expanded="false"
             onClick={() => setIsMenuActive(!isMenuActive)}
@@ -75,9 +77,9 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
           </a>
         </div>
 
-        <div className={withActive("navbar-menu", isMenuActive)}>
+        <div className={c("navbar-menu", isMenuActive && "is-active")}>
           <div className="navbar-start">
-            <FeedDropdown pathname={pathname} featuredBluedits={props.featuredBluedits} isLogged={!!user} />
+            <FeedDropdown pathname={pathname} isLogged={!!user} />
             {!pathname.startsWith("/search") && (
               <form
                 className="navbar-item"

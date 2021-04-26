@@ -1,24 +1,38 @@
 import React from "react"
-import { useUserPreviewQuery } from "../generated/graphql"
-import { formatDistance, format } from "date-fns"
+import { useUserPreviewQuery } from "../../generated/graphql"
+import { formatDistance } from "date-fns"
 import { Link } from "@reach/router"
-import { hideLink } from "./utils"
-import { Helmet } from "react-helmet"
 
 const DEFAULT_BIO = "Nothing here, for now..."
 
-type UserPreviewProps = ({ id: string } | { name: string }) & { inHead?: boolean }
+type UserPreviewProps = { id: string } | { name: string }
 export const UserPreview: React.FC<UserPreviewProps> = (props) => {
-  const { data, error } = useUserPreviewQuery({ variables: props })
+  const { data, error, loading } = useUserPreviewQuery({ variables: props })
 
-  if (error) {
-    console.log(error)
-    return null
+  if (loading) {
+    return (
+      <div className="card my-2">
+        <div className="card-content">
+          <div className="is-flex is-justify-content-center is-align-items-center my-4">
+            <button className="button is-white is-large is-loading" />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !data) {
+    console.error(error)
+    if (process.env.NODE_ENV === "development") {
+      return <div style={{ border: "1px solid red" }}>{JSON.stringify(error)}</div>
+    } else {
+      return null
+    }
   }
 
   return (
     <div className="card my-2">
-      {props.inHead && data && (
+      {/* {props.inHead && data && (
         <Helmet>
           <title>/u/{data.user.name} | Bluedit</title>
           <meta property="og:title" content={`/u/${data.user.name} | Bluedit`} />
@@ -30,16 +44,18 @@ export const UserPreview: React.FC<UserPreviewProps> = (props) => {
             )}.\n${data.user.bio !== DEFAULT_BIO ? data.user.bio : ""}`}
           />
         </Helmet>
-      )}
+      )} */}
       <div className="card-content">
         <div className="columns">
           <div className="column">
             <p className="title">
-              <Link to={`/u/${data?.user.name}`} className={hideLink}>
-                /u/{data?.user.name}
+              <Link to={`/u/${data.user.name}`} className="has-text-black">
+                /u/{data.user.name}
               </Link>
             </p>
-            <p className="subtitle">Joined {data && formatDistance(new Date(data.user.createdAt), new Date())} ago.</p>
+            <p className="subtitle">
+              Joined {formatDistance(new Date(data.user.createdAt), new Date())} ago.
+            </p>
           </div>
           <div className="column is-narrow">
             <div className="panel" style={{ boxShadow: "none" }}>
@@ -48,18 +64,18 @@ export const UserPreview: React.FC<UserPreviewProps> = (props) => {
                 <span className="panel-icon">
                   <ion-icon name="heart-outline"></ion-icon>
                 </span>
-                {data?.user.karma} karma
+                {data.user.karma} karma
               </div>
               <div className="panel-block">
                 <span className="panel-icon">
                   <ion-icon name="file-tray-full-outline"></ion-icon>
                 </span>
-                {data?.user.postCount} post{data && data.user.postCount > 1 && "s"}
+                {data.user.postCount} post{data && data.user.postCount > 1 && "s"}
               </div>
             </div>
           </div>
         </div>
-        {data && data.user.bio !== DEFAULT_BIO && <p style={{ whiteSpace: "pre-line" }}>{data?.user.bio}</p>}
+        {data.user.bio !== DEFAULT_BIO && <p style={{ whiteSpace: "pre-line" }}>{data.user.bio}</p>}
       </div>
     </div>
   )

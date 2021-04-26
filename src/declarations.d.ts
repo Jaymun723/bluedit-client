@@ -1,4 +1,4 @@
-import { CSSProperties } from "linaria"
+import { CSSProperties } from "react"
 
 declare global {
   namespace JSX {

@@ -1,5 +1,5 @@
-query MainFeed($sort: SortType!) {
-  mainFeed(sort: $sort) {
+query MainFeed($sort: SortType!, $pagination: PaginationInput) {
+  mainFeed(sort: $sort, pagination: $pagination) {
     id
   }
 }
@@ -107,8 +107,8 @@ query MyBluedits {
   }
 }
 
-query AllBluedits {
-  bluedits {
+query AllBluedits($pagination: PaginationInput) {
+  bluedits(pagination: $pagination) {
     id
   }
 }
@@ -125,9 +125,10 @@ query BlueditFeed($name: String!, $sort: SortType!) {
   }
 }
 
-query UserPosts($name: String!) {
+query UserPosts($name: String!, $pagination: PaginationInput) {
   user(name: $name) {
-    posts {
+    id
+    posts(pagination: $pagination) {
       id
     }
   }
