@@ -105,7 +105,7 @@ export const CommentMarkup: React.FC<CommentMarkupProps> = (props) => {
               )}
               <div className="level-item">
                 <button
-                  className={c("button", "is-text", props.editing && "has-text-primary")}
+                  className={c("button", "is-text", props.editing && "has-text-success")}
                   onClick={() => {
                     if (props.editing) {
                       props.onEditStateChange("SUBMIT")
@@ -115,7 +115,7 @@ export const CommentMarkup: React.FC<CommentMarkupProps> = (props) => {
                   }}
                 >
                   <span className="icon">
-                    <ion-icon name="construct-outline" />
+                    <ion-icon name={props.editing ? "checkmark" : "construct-outline"} />
                   </span>
                 </button>
               </div>

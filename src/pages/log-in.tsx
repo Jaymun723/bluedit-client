@@ -12,7 +12,7 @@ const Login: React.FC = () => {
   const [{ user }, dispatch] = useAppState()
   const navigate = useNavigate()
 
-  const [mutate, { error, data }] = useLoginMutation({
+  const [mutate, { error, data, loading }] = useLoginMutation({
     variables: {
       email,
       password,
@@ -70,7 +70,7 @@ const Login: React.FC = () => {
           onChange={setPassword}
           required
         />
-        <SubmitButton />
+        <SubmitButton loading={loading} />
       </form>
     </ConnectionForm>
   )

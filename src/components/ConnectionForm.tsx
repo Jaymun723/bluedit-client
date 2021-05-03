@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { ApolloError } from "@apollo/client"
+import { c } from "../utils"
 
 export const ErrorDisplay: React.FC<{ error?: ApolloError }> = (props) => {
   const [isDisplayed, setIsDisplayed] = useState(false)
@@ -87,11 +88,18 @@ export const Field: React.FC<FieldProps> = (props) => {
   )
 }
 
-export const SubmitButton = () => {
+interface SubmitButtonProps {
+  loading?: boolean
+}
+
+export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
   return (
     <div className="field">
       <div className="control">
-        <input className="button is-fullwidth" type="submit" />
+        <button
+          className={c("button", "is-fullwidth", props.loading && "is-loading")}
+          type="submit"
+        />
       </div>
     </div>
   )

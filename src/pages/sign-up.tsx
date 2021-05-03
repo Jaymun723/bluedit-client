@@ -13,7 +13,7 @@ const SignUp: React.FC = () => {
   const [{ user }, dispatch] = useAppState()
   const navigate = useNavigate()
 
-  const [mutate, { error, data }] = useCreateAccountMutation({
+  const [mutate, { error, data, loading }] = useCreateAccountMutation({
     variables: { name, email, password },
   })
 
@@ -75,7 +75,7 @@ const SignUp: React.FC = () => {
           type="password"
           required
         />
-        <SubmitButton />
+        <SubmitButton loading={loading} />
       </form>
     </ConnectionForm>
   )

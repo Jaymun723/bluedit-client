@@ -127,7 +127,10 @@ export const TextPostPreview: React.FC<TextPostPreviewProps> = (props) => {
           />
         </>
       ) : (
-        <div className="content is-medium" dangerouslySetInnerHTML={{ __html: htmlPreview }} />
+        <div
+          className={c("content", props.isFullPage ? "is-large" : "is-medium")}
+          dangerouslySetInnerHTML={{ __html: htmlPreview }}
+        />
       )}
     </BasePostPreview>
   )
