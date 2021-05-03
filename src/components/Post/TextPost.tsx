@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
-import { c, simpleMarkdownParser } from "../../utils"
+import { c, pureText, simpleMarkdownParser } from "../../utils"
 import { useAppState } from "../AppState"
 import { BasePostPreview, BasePostPreviewProps } from "./BasePost"
 import { useEditPostMutation } from "../../generated/graphql"
 
-const getExcerpt = (content: string) => {
+const getExcerpt = (c: string) => {
+  const content = pureText(c)
   const l = content.length
 
   if (l >= 300) {

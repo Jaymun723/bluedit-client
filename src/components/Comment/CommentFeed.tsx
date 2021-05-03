@@ -33,12 +33,9 @@ export const CommentFeed: React.FC<CommentFeedProps> = (props) => {
   }
 
   return (
-    <>
+    <div className="comment-feed">
       <CommentInput postId={props.postId} />
       <CommentTree comments={data.post.comments} isRoot postId={props.postId} />
-      {/* {data.post.comments.map((comment) => (
-        <CommentPreview id={comment.id} key={comment.id} postId={props.postId} />
-      ))} */}
-    </>
+    </div>
   )
 }

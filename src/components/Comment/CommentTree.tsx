@@ -44,7 +44,9 @@ export const CommentTree: React.FC<CommentTreeProps> = (props) => {
     <>
       {comments.map((comment) => (
         <CommentPreview id={comment.id} key={comment.id} postId={props.postId}>
-          <CommentTree comments={props.comments} postId={props.postId} parentId={comment.id} />
+          {getChildOf(comment.id, props.comments).length > 0 ? (
+            <CommentTree comments={props.comments} postId={props.postId} parentId={comment.id} />
+          ) : null}
         </CommentPreview>
       ))}
     </>

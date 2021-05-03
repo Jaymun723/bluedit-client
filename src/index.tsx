@@ -15,7 +15,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { SignOut } from "./pages/sign-out"
 import { PageLoader } from "./components/PageLoader"
 
-// import DevPage from "./pages/dev"
+import DevPage from "./pages/dev"
 
 const Index = lazy(() => import("./pages/index"))
 const LogIn = lazy(() => import("./pages/log-in"))
@@ -41,8 +41,10 @@ const App = () => {
             <PopupProvider>
               <Routes>
                 <Route path="/" element={<Index />} />
-                {/* 
-                <Route path="dev" element={<DevPage />} /> */}
+
+                {process.env.NODE_ENV === "development" && (
+                  <Route path="dev" element={<DevPage />} />
+                )}
 
                 <Route path="log-in" element={<LogIn />} />
                 <Route path="sign-up" element={<SignUp />} />

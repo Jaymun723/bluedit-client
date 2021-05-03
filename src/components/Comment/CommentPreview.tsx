@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   useCommentPreviewQuery,
   useCommentVoteMutation,
@@ -12,6 +12,7 @@ import { UpVoteButtons } from "../Buttons/UpVoteButtons"
 import { usePopup } from "../Modals"
 import { useConfirmDelete } from "../Modals/ConfirmDelete"
 import { CommentInput } from "./CommentInput"
+import { CommentMarkup } from "./CommentMarkup"
 
 interface CommentEditorProps {
   placeholder: string
@@ -41,12 +42,11 @@ interface CommentPreviewProps {
 }
 
 export const CommentPreview: React.FC<CommentPreviewProps> = (props) => {
-  const [{ user }] = useAppState()
-  const { data, loading, error } = useCommentPreviewQuery({
+  const { data } = useCommentPreviewQuery({
     variables: { id: props.id },
   })
-  const [vote] = useCommentVoteMutation()
-  const [edit] = useEditCommentMutation()
+  const [voteMutation] = useCommentVoteMutation()
+  const [editMutation] = useEditCommentMutation()
   const [remove] = useRemoveCommentMutation()
 
   const [editing, setEditing] = useState(false)
@@ -62,120 +62,69 @@ export const CommentPreview: React.FC<CommentPreviewProps> = (props) => {
     },
   })
 
-  if (loading) {
-    return (
-      <div className="box is-flex is-justify-content-center">
-        <button className="button is-text is-loading" />
-        {/* {props.children} */}
-      </div>
-    )
-  }
-
-  if (error || !data) {
-    console.error(error)
-    if (process.env.NODE_ENV === "development") {
-      return <div style={{ border: "1px solid red" }}>{JSON.stringify(error)}</div>
-    } else {
-      return null
+  useEffect(() => {
+    if (data) {
+      setEditingContent(data.comment.content)
     }
-  }
+  }, [data])
 
-  if (data.comment.deleted) {
-    return (
-      <div className="media box">
-        <div className="media-content">
-          <div className="content">
-            REMOVED
-            {props.children}
-          </div>
-        </div>
-      </div>
-    )
-  }
+  const vote = (up: boolean) =>
+    voteMutation({
+      variables: {
+        commentId: props.id,
+        postId: props.postId,
+        up,
+      },
+    })
 
   return (
-    <div className="media box">
-      <div className="media-content">
-        <div className="content mb-0">
-          <strong>
-            <Link to={`/u/${data.comment.author.name}`}>{data.comment.author.name}</Link>
-          </strong>
-          <br />
-          {editing ? (
-            <CommentEditor
-              onChange={setEditingContent}
-              value={editContent}
-              placeholder={data.comment.content}
-            />
-          ) : (
-            data.comment.content
-          )}
-        </div>
-        <div className="level mb-0">
-          <div className="level-right">
-            <div className="level-item">
-              <UpVoteButtons
-                targetId={props.id}
-                userVote={data.comment.userVote}
-                voteCount={data.comment.voteCount}
-                vote={(up) =>
-                  vote({
-                    variables: { commentId: props.id, postId: props.postId, up },
-                  })
-                }
-              />
-            </div>
-            {user && (
-              <div className="level-item">
-                <button
-                  className={c("button", "is-medium", "is-text", commenting && "has-text-primary")}
-                  onClick={() => setCommenting(!commenting)}
-                >
-                  <span className="icon">
-                    <ion-icon name="chatbubble-outline"></ion-icon>
-                  </span>
-                </button>
-              </div>
-            )}
-            {user?.id === data.comment.author.id && (
-              <>
-                <div className="level-item">
-                  <button
-                    className={c("button", "is-medium", "is-text", editing && "has-text-primary")}
-                    onClick={() => {
-                      if (editing === false) {
-                        setEditingContent(data.comment.content)
-                      } else {
-                        edit({ variables: { content: editContent, id: props.id } })
-                      }
-                      setEditing(!editing)
-                    }}
-                  >
-                    <span className="icon">
-                      <ion-icon name="construct-outline"></ion-icon>
-                    </span>
-                  </button>
-                </div>
-                <div className="level-item">
-                  <button className="button is-text is-medium" onClick={startPopup}>
-                    <span className="icon">
-                      <ion-icon name="trash-outline"></ion-icon>
-                    </span>
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-        {commenting && (
-          <CommentInput
-            postId={props.postId}
-            commentId={props.id}
-            onFinishedComment={() => setCommenting(false)}
-          />
-        )}
-        {props.children}
-      </div>
-    </div>
+    <CommentMarkup
+      commentId={props.id}
+      onClickComment={() => setCommenting(!commenting)}
+      commenting={commenting}
+      editing={editing}
+      onEditStateChange={(state) => {
+        if (state === "START") {
+          setEditing(true)
+        } else if (state === "CANCEL") {
+          setEditing(false)
+          setEditingContent(data?.comment.content || "")
+        } else {
+          setEditing(false)
+          if (editContent !== data?.comment.content) {
+            editMutation({
+              variables: { content: editContent, id: props.id },
+              optimisticResponse: {
+                __typename: "Mutation",
+                editComment: {
+                  __typename: "Comment",
+                  id: props.id,
+                  content: editContent,
+                },
+              },
+            })
+          }
+        }
+      }}
+      editValue={editContent}
+      onEditValueChange={setEditingContent}
+      onClickDelete={startPopup}
+      vote={vote}
+      author={data?.comment.author}
+      content={data?.comment.content}
+      removed={data?.comment.deleted}
+      userVote={data?.comment.userVote || undefined}
+      voteCount={data?.comment.voteCount}
+      last={props.children === null}
+    >
+      {commenting && (
+        <CommentInput
+          postId={props.postId}
+          commentId={props.id}
+          onFinishedComment={() => setCommenting(false)}
+        />
+      )}
+      {props.children}
+    </CommentMarkup>
   )
 }

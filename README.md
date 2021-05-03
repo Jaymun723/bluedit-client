@@ -1,6 +1,8 @@
 Todo:
 
 - refactor code
+- comment tree optimisation
+- share button
 
 - better login
 - better profile edition

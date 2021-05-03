@@ -26,7 +26,7 @@ export const CommentInput: React.FC<CommentInputProps> = (props) => {
   }
 
   return (
-    <div className="card mt-2">
+    <div className="card block">
       <div className="card-content">
         <div className="field">
           <p className="control">

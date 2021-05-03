@@ -76,3 +76,17 @@ export const simpleMarkdownParser = (text: string) => {
 
   return toHTML.trim() // using trim method to remove whitespace
 }
+
+export const pureText = (text: string) => {
+  const toHTML = text
+    .replace(/[&<>"']/g, (chr) => htmlEscapes[chr]) // escape html
+    .replace(/\*\*(.*)\*\*/gim, "$1") // bold text
+    .replace(/\*(.*)\*/gim, "$1") // italic text
+    .replace(/\n/g, " ") // new line
+    .replace(
+      /\[(.*?)\]\(((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)\)/gim,
+      "$2"
+    ) // links
+
+  return toHTML.trim() // using trim method to remove whitespace
+}

@@ -1,6 +1,7 @@
 import { useMutation } from "@apollo/client"
 import React, { useState } from "react"
 import { usePostVoteMutation } from "../../generated/graphql"
+import { c } from "../../utils"
 import { useAppState } from "../AppState"
 
 interface UpVoteButtonsProps {
@@ -9,6 +10,7 @@ interface UpVoteButtonsProps {
   vote?: (up: boolean) => Promise<any>
   voteCount?: number
   disabled?: boolean
+  small?: boolean
 }
 
 export const UpVoteButtons: React.FC<UpVoteButtonsProps> = (props) => {
@@ -16,7 +18,7 @@ export const UpVoteButtons: React.FC<UpVoteButtonsProps> = (props) => {
   const [loading, setLoading] = useState(false)
 
   if (typeof props.voteCount !== "number") {
-    return <button className="button is-text is-medium is-loading"></button>
+    return <button className={c("button", "is-text", !props.small && "is-medium", "is-loading")} />
   }
 
   const createVoteFunction = (up: boolean) => () => {
@@ -32,7 +34,13 @@ export const UpVoteButtons: React.FC<UpVoteButtonsProps> = (props) => {
   return (
     <>
       <button
-        className={`button is-text is-medium${props.userVote?.up ? " has-text-primary" : ""}`}
+        // className={`button is-text is-medium${props.userVote?.up ? " has-text-primary" : ""}`}
+        className={c(
+          "button",
+          "is-text",
+          !props.small && "is-medium",
+          props.userVote?.up && "has-text-primary"
+        )}
         onClick={createVoteFunction(true)}
         title="Up Vote"
         disabled={loading || props.disabled}
@@ -47,9 +55,15 @@ export const UpVoteButtons: React.FC<UpVoteButtonsProps> = (props) => {
         <p>{props.voteCount}</p>
       )}
       <button
-        className={`button is-text is-medium${
-          props.userVote && props.userVote.up === false ? " has-text-danger" : ""
-        }`}
+        // className={`button is-text is-medium${
+        //   props.userVote && props.userVote.up === false ? " has-text-danger" : ""
+        // }`}
+        className={c(
+          "button",
+          "is-text",
+          !props.small && "is-medium",
+          props.userVote?.up === false && "has-text-danger"
+        )}
         onClick={createVoteFunction(false)}
         title="Down Vote"
         disabled={loading || props.disabled}

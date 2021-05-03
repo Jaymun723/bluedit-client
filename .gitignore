@@ -3,4 +3,5 @@ graphql.schema.json
 node_modules/
 .netlify
 dist/
+blog/
 .env
