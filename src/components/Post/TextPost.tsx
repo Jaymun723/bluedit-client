@@ -104,7 +104,7 @@ export const TextPostPreview: React.FC<TextPostPreviewProps> = (props) => {
         </>
       }
     >
-      {excerpt.cut ? (
+      {excerpt.cut && !props.isFullPage ? (
         <div className="content is-medium">
           {excerpt.excerpt}
           <Link to={props.url!}>Read</Link>
