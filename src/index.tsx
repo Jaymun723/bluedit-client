@@ -11,9 +11,11 @@ import { PopupProvider } from "./components/Modals"
 
 import "./global.scss"
 
-import { Router, Redirect } from "@reach/router"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { SignOut } from "./pages/sign-out"
 import { PageLoader } from "./components/PageLoader"
+
+// import DevPage from "./pages/dev"
 
 const Index = lazy(() => import("./pages/index"))
 const LogIn = lazy(() => import("./pages/log-in"))
@@ -30,39 +32,39 @@ const User = lazy(() => import("./pages/user"))
 
 const Post = lazy(() => import("./pages/post"))
 
-import DevPage from "./pages/dev"
-
 const App = () => {
   return (
     <AppStateProvider>
       <ApolloProvider client={apolloClient}>
-        <PopupProvider>
-          <Suspense fallback={<PageLoader />}>
-            <Router>
-              <Index path="/" />
+        <Suspense fallback={<PageLoader />}>
+          <BrowserRouter>
+            <PopupProvider>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                {/* 
+                <Route path="dev" element={<DevPage />} /> */}
 
-              {/* <TestdevPage path="dev" /> */}
+                <Route path="log-in" element={<LogIn />} />
+                <Route path="sign-up" element={<SignUp />} />
+                <Route path="sign-out" element={<SignOut />} />
 
-              <DevPage path="dev" />
+                <Route path="personal-feed" element={<PersonalFeed />} />
+                <Route path="account-settings" element={<AccountSettings />} />
+                <Route path="search" element={<Search />} />
+                <Route path="new-post" element={<NewPost />} />
 
-              <LogIn path="log-in" />
-              <SignUp path="sign-up" />
-              <SignOut path="sign-out" />
-              <PersonalFeed path="personal-feed" />
-              <AccountSettings path="account-settings" />
-              <Search path="search" />
-              <NewPost path="new-post" />
+                <Route path="b">
+                  <Route path="/" element={<BlueditList />} />
+                  <Route path=":name" element={<Bluedit />} />
+                </Route>
 
-              <BlueditList path="b" />
-              <Bluedit path="b/:name" />
+                <Route path="u/:name" element={<User />} />
 
-              <User path="u/:name" />
-
-              <Redirect from="p" to="/" />
-              <Post path="p/:id" />
-            </Router>
-          </Suspense>
-        </PopupProvider>
+                <Route path="p/:id" element={<Post />} />
+              </Routes>
+            </PopupProvider>
+          </BrowserRouter>
+        </Suspense>
       </ApolloProvider>
     </AppStateProvider>
   )

@@ -38,7 +38,7 @@ export const UserPostsFeed: React.FC<UserPostsFeedProps> = (props) => {
   if (loading) {
     return (
       <div className="container is-flex is-justify-content-center">
-        <button className="button is-white is-loading is-large" />
+        <button className="button is-text is-loading is-large" />
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Link, useLocation, useNavigate } from "@reach/router"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { c } from "../utils"
 import { useAppState } from "./AppState"
 
@@ -90,7 +90,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
                 }}
               >
                 <div className="field has-addons">
-                  <p className="control has-icons-left">
+                  <div className="control is-expanded has-icons-left">
                     <input
                       className="input"
                       type="text"
@@ -102,9 +102,9 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
                     <span className="icon is-small is-left">
                       <ion-icon name="search-outline"></ion-icon>
                     </span>
-                  </p>
+                  </div>
                   <div className="control">
-                    <button className="button is-info">Search</button>
+                    <button className="button">Search</button>
                   </div>
                 </div>
               </form>

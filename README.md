@@ -1,11 +1,11 @@
 Todo:
 
-- better post creation
+- refactor code
+
+- better login
 - better profile edition
-- better post manage (confirm & edit)
-- use https://jenil.github.io/bulmaswatch/darkly/
 - seo
 - bluedit sort
 
 - users roles (admin & mod)
-- bluedit created user
+- bluedit created by user

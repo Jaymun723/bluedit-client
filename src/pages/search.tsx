@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { BaseLayout } from "../components/BaseLayout"
-import { RouteComponentProps } from "@reach/router"
 import { useSearchQuery } from "../generated/graphql"
 import { BlueditPreview } from "../components/Bluedit/BlueditPreview"
 import { PostPreview } from "../components/Post/PostPreview"
@@ -31,7 +30,7 @@ const useSearchParams: () => [URLSearchParams, (val: URLSearchParams) => void] =
   return [urlSearchParams, setUrl]
 }
 
-const Search: React.FC<RouteComponentProps> = () => {
+const Search: React.FC = () => {
   const [params, setParams] = useSearchParams()
   const [tempQuery, setTempQuery] = useState(params.get("query") || "")
   const [query, setQuery] = useState(params.get("query") || "")
@@ -87,7 +86,7 @@ const Search: React.FC<RouteComponentProps> = () => {
             })
           )
         ) : (
-          <button className="button is-white is-loading is-large" />
+          <button className="button is-text is-loading is-large" />
         )}
       </div>
     </BaseLayout>

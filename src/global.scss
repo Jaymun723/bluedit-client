@@ -1,10 +1,26 @@
 @charset "utf-8";
 
-$card-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-$card-content-padding: 1rem;
+// $card-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+// $box-shadow: $card-shadow;
+// $card-content-padding: 1rem;
+
+@import "node_modules/bulmaswatch/darkly/_variables.scss";
+
+$input-color: $grey-lighter;
+$input-border-color: lighten($button-background-color, 15);
+$input-background-color: $grey-dark;
+$input-icon-color: $grey;
+$input-icon-active-color: $input-color;
+$input-focus-border-color: $blue;
 
 @import "bulma";
 @import "bulma-pageloader";
+@import "node_modules/bulmaswatch/darkly/_overrides.scss";
+
+// Fix for tabs
+.box .tabs.is-boxed li.is-active a {
+  background-color: #343c3d;
+}
 
 .is-mega-large {
   font-size: 5rem;
@@ -19,4 +35,12 @@ $card-content-padding: 1rem;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.has-close-button {
+  & .close-button {
+    top: 0;
+    right: 0;
+    position: absolute;
+  }
 }

@@ -3,10 +3,10 @@ import { ConnectionForm, Field, SubmitButton } from "../components/ConnectionFor
 import { useLoginMutation } from "../generated/graphql"
 import { login } from "../apollo/auth"
 import { useAppState } from "../components/AppState"
-import { useNavigate, RouteComponentProps } from "@reach/router"
 import { Helmet } from "react-helmet"
+import { useNavigate } from "react-router-dom"
 
-const Login: React.FC<RouteComponentProps> = () => {
+const Login: React.FC = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [{ user }, dispatch] = useAppState()

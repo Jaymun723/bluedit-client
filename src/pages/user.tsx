@@ -1,18 +1,17 @@
 import React from "react"
-import { RouteComponentProps, Redirect } from "@reach/router"
 import { BaseLayout } from "../components/BaseLayout"
 import { UserPreview } from "../components/User/UserPreview"
 import { UserPostsFeed } from "../components/User/UserPostsFeed"
+import { useParams } from "react-router"
 
-interface UserProps extends RouteComponentProps {
-  name?: string
-}
-const User: React.FC<UserProps> = (props) => {
+const User: React.FC = (props) => {
+  const { name } = useParams()
+
   return (
     <BaseLayout>
-      <UserPreview name={props.name!} />
+      <UserPreview name={name} />
       <p className="title">His posts:</p>
-      <UserPostsFeed userName={props.name!} />
+      <UserPostsFeed userName={name} />
     </BaseLayout>
   )
 }

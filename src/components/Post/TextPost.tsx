@@ -1,6 +1,9 @@
-import React from "react"
-import { Link } from "@reach/router"
+import React, { useEffect, useMemo, useState } from "react"
+import { Link } from "react-router-dom"
+import { c, simpleMarkdownParser } from "../../utils"
+import { useAppState } from "../AppState"
 import { BasePostPreview, BasePostPreviewProps } from "./BasePost"
+import { useEditPostMutation } from "../../generated/graphql"
 
 const getExcerpt = (content: string) => {
   const l = content.length
@@ -18,32 +21,112 @@ const getExcerpt = (content: string) => {
   }
 }
 
-interface TextPostPreviewProps extends BasePostPreviewProps {
+interface TextPostPreviewProps extends Omit<BasePostPreviewProps, "body"> {
   content?: string
 }
 
-const TextContent: React.FC<{ content: string; url: string }> = (props) => {
-  const excerpt = getExcerpt(props.content)
-
-  if (excerpt.cut) {
-    return (
-      <div className="content is-medium">
-        {excerpt.excerpt}
-        <Link to={props.url}>Read</Link>
-      </div>
-    )
-  } else {
-    return <div className="content is-medium">{props.content}</div>
-  }
-}
-
 export const TextPostPreview: React.FC<TextPostPreviewProps> = (props) => {
+  const htmlPreview = useMemo(() => simpleMarkdownParser(props.content || ""), [props.content])
+  const excerpt = useMemo(() => getExcerpt(props.content || ""), [props.content])
+  const [{ user }] = useAppState()
+  const [isEditing, setIsEditing] = useState(false)
+  const [editContent, setEditContent] = useState(props.content || "")
+  const [edit, { loading, error: apolloError }] = useEditPostMutation()
+
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    if (apolloError) {
+      setError(apolloError.message)
+      setIsEditing(true)
+      setEditContent(props.content || "")
+    }
+  }, [apolloError])
+
   return (
-    <BasePostPreview {...props}>
-      {props.isFullPage ? (
-        <div className="content is-medium">{props.content}</div>
+    <BasePostPreview
+      {...props}
+      additionalButton={
+        <>
+          {user && props.isFullPage && user.id === props.author?.id ? (
+            <>
+              {isEditing && (
+                <div className="card-footer-item">
+                  <button
+                    className="button is-text is-medium"
+                    title="Cancel"
+                    onClick={() => setIsEditing(false)}
+                  >
+                    <span className="icon">
+                      <ion-icon name="close" />
+                    </span>
+                  </button>
+                </div>
+              )}
+              <div className="card-footer-item">
+                {loading ? (
+                  <button className="button is-text is-medium is-loading" />
+                ) : (
+                  <button
+                    className={c("button", "is-text", "is-medium", isEditing && "is-success")}
+                    title="Edit post"
+                    onClick={() => {
+                      if (isEditing) {
+                        setIsEditing(false)
+                        if (editContent === props.content) return
+                        edit({
+                          variables: {
+                            id: props.id,
+                            content: editContent,
+                          },
+                          optimisticResponse: {
+                            __typename: "Mutation",
+                            editTextPost: {
+                              __typename: "Post",
+                              content: editContent,
+                              id: props.id,
+                            },
+                          },
+                        })
+                      } else {
+                        setIsEditing(true)
+                      }
+                    }}
+                  >
+                    <span className="icon">
+                      <ion-icon name={isEditing ? "checkmark" : "construct-outline"} />
+                    </span>
+                  </button>
+                )}
+              </div>
+            </>
+          ) : null}
+        </>
+      }
+    >
+      {excerpt.cut ? (
+        <div className="content is-medium">
+          {excerpt.excerpt}
+          <Link to={props.url!}>Read</Link>
+        </div>
+      ) : isEditing ? (
+        <>
+          {error && (
+            <div className="notification is-danger">
+              <button className="delete" onClick={() => setError("")} />
+              {error}
+            </div>
+          )}
+          <textarea
+            className="textarea"
+            name="text"
+            placeholder="Something cool I guess..."
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+          />
+        </>
       ) : (
-        <TextContent content={props.content!} url={props.url!} />
+        <div className="content is-medium" dangerouslySetInnerHTML={{ __html: htmlPreview }} />
       )}
     </BasePostPreview>
   )

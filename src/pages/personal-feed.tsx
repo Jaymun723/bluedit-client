@@ -1,12 +1,13 @@
 import React, { useEffect } from "react"
 import { PersonalFeedDocument } from "../generated/graphql"
 import { useAppState } from "../components/AppState"
-import { RouteComponentProps, navigate } from "@reach/router"
 import { BaseLayout } from "../components/BaseLayout"
 import { Feed } from "../components/Feed"
+import { useNavigate } from "react-router-dom"
 
-const PersonalFeed: React.FC<RouteComponentProps> = () => {
+const PersonalFeed: React.FC = () => {
   const [{ user }] = useAppState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!user) {

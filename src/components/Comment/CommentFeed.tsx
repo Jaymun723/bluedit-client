@@ -18,7 +18,7 @@ export const CommentFeed: React.FC<CommentFeedProps> = (props) => {
   if (loading) {
     return (
       <div className="is-flex is-justify-content-center mt-5">
-        <button className="button is-white is-large is-loading" />
+        <button className="button is-text is-large is-loading" />
       </div>
     )
   }

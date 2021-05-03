@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { ConnectionForm, Field, SubmitButton } from "../components/ConnectionForm"
 import { useAppState } from "../components/AppState"
-import { useNavigate, RouteComponentProps } from "@reach/router"
 import { useCreateAccountMutation } from "../generated/graphql"
 import { login } from "../apollo/auth"
 import { Helmet } from "react-helmet"
+import { useNavigate } from "react-router-dom"
 
-const SignUp: React.FC<RouteComponentProps> = () => {
+const SignUp: React.FC = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

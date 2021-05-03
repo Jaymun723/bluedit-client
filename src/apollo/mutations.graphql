@@ -130,3 +130,10 @@ mutation EditComment($id: String!, $content: String!) {
     content
   }
 }
+
+mutation EditPost($id: String!, $content: String!) {
+  editTextPost(id: $id, content: $content) {
+    id
+    content
+  }
+}

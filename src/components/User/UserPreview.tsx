@@ -1,7 +1,7 @@
 import React from "react"
 import { useUserPreviewQuery } from "../../generated/graphql"
 import { formatDistance } from "date-fns"
-import { Link } from "@reach/router"
+import { Link } from "react-router-dom"
 
 const DEFAULT_BIO = "Nothing here, for now..."
 
@@ -14,7 +14,7 @@ export const UserPreview: React.FC<UserPreviewProps> = (props) => {
       <div className="card my-2">
         <div className="card-content">
           <div className="is-flex is-justify-content-center is-align-items-center my-4">
-            <button className="button is-white is-large is-loading" />
+            <button className="button is-text is-large is-loading" />
           </div>
         </div>
       </div>

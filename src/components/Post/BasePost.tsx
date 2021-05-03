@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, navigate } from "@reach/router"
+import { Link, useNavigate } from "react-router-dom"
 import { UpVoteButtons } from "../Buttons/UpVoteButtons"
 import { formatDistance } from "date-fns"
 import { CommentButton } from "../Buttons/CommentButton"
@@ -20,12 +20,16 @@ export interface BasePostPreviewProps {
   createdAt?: string
   commentCount?: number
   isFullPage?: boolean
+  body?: React.ReactNode
+  disableButtons?: boolean
+  additionalButton?: React.ReactNode
 }
 
 export const BasePostPreview: React.FC<BasePostPreviewProps> = (props) => {
   const [vote] = usePostVoteMutation()
   const [remove] = useRemovePostMutation()
   const [{ user }] = useAppState()
+  const navigate = useNavigate()
   const { startPopup } = useConfirmDelete({
     entity: "post",
     onConfirm: () => {
@@ -43,7 +47,7 @@ export const BasePostPreview: React.FC<BasePostPreviewProps> = (props) => {
         <>
           <div className="card-content">
             <p className="title">
-              <Link to={props.url} className={`has-text-black`}>
+              <Link to={props.url} className={c(`has-text-white`)}>
                 {props.title}
               </Link>
             </p>
@@ -54,6 +58,7 @@ export const BasePostPreview: React.FC<BasePostPreviewProps> = (props) => {
             </p>
             {props.children}
           </div>
+          {props.body}
           <footer className="card-footer">
             <div className="card-footer-item">
               <UpVoteButtons
@@ -61,20 +66,30 @@ export const BasePostPreview: React.FC<BasePostPreviewProps> = (props) => {
                 userVote={props.userVote}
                 targetId={props.id}
                 vote={(up) => vote({ variables: { postId: props.id, up } })}
+                disabled={props.disableButtons}
               />
             </div>
             <div className="card-footer-item">
-              <CommentButton commentCount={props.commentCount} url={props.url} />
+              <CommentButton
+                commentCount={props.commentCount}
+                url={props.url}
+                disabled={props.disableButtons}
+              />
             </div>
             <div className="card-footer-item">
-              <ShareButton url={props.url} />
+              <ShareButton url={props.url} disabled={props.disableButtons} />
             </div>
+            {props.additionalButton}
             {user?.id === props.author.id && props.isFullPage && (
               <div className="card-footer-item">
                 <button
-                  className="button is-white is-medium"
+                  className="button is-text is-medium"
                   title="Delete post"
-                  onClick={startPopup}
+                  onClick={() => {
+                    if (!props.disableButtons) {
+                      startPopup()
+                    }
+                  }}
                 >
                   <span className="icon">
                     <ion-icon name="trash-outline" />
@@ -87,7 +102,7 @@ export const BasePostPreview: React.FC<BasePostPreviewProps> = (props) => {
       ) : (
         <div className="card-content">
           <div className="is-flex is-justify-content-center is-align-items-center my-4">
-            <button className="button is-white is-large is-loading"></button>
+            <button className="button is-text is-large is-loading"></button>
           </div>
         </div>
       )}

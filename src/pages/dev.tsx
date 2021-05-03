@@ -1,15 +1,16 @@
-import { RouteComponentProps } from "@reach/router"
 import React from "react"
 import { BaseLayout } from "../components/BaseLayout"
 import { CreatorRoot } from "../components/Creator/CreatorRoot"
+import { PageLoader } from "../components/PageLoader"
 
-interface DevPageProps extends RouteComponentProps {}
+interface DevPageProps {}
 
 const DevPage: React.FC<DevPageProps> = (props) => {
   return (
-    <BaseLayout>
-      <CreatorRoot />
-    </BaseLayout>
+    // <BaseLayout>
+    //   <CreatorRoot />
+    // </BaseLayout>
+    <PageLoader />
   )
 }
 

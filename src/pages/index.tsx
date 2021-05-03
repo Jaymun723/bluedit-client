@@ -1,7 +1,6 @@
 import React from "react"
 import { MainFeedDocument } from "../generated/graphql"
 import { BaseLayout } from "../components/BaseLayout"
-import { RouteComponentProps } from "@reach/router"
 import { Feed } from "../components/Feed"
 
 // const Index: React.FC<RouteComponentProps> = () => {
@@ -45,7 +44,7 @@ import { Feed } from "../components/Feed"
 //       <SortTabs />
 //       {!data ? (
 //         <div className="container is-max-desktop is-flex is-justify-content-center">
-//           <button className="button is-white is-mega-large is-loading" />
+//           <button className="button is-text is-mega-large is-loading" />
 //         </div>
 //       ) : (
 //         <div className="container is-max-desktop is-flex is-flex-direction-column">
@@ -73,7 +72,7 @@ import { Feed } from "../components/Feed"
 //   )
 // }
 
-const Index: React.FC<RouteComponentProps> = () => {
+const Index: React.FC = () => {
   return (
     <BaseLayout>
       <Feed query={MainFeedDocument} getPosts={(data) => data.mainFeed} />

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react"
 import { BasePostPreviewProps, BasePostPreview } from "./BasePost"
 
-interface WebsitePostPreviewProps extends BasePostPreviewProps {
+interface WebsitePostPreviewProps extends Omit<BasePostPreviewProps, "body"> {
   content?: string
 }
 interface WebsiteData {
@@ -11,7 +11,7 @@ interface WebsiteData {
   imageUrl: string | undefined
 }
 
-const WebsiteDisplay: React.FC<{ content: string }> = (props) => {
+export const WebsiteDisplay: React.FC<{ content: string }> = (props) => {
   const website = useMemo(() => JSON.parse(props.content) as WebsiteData, [props.content])
 
   return (

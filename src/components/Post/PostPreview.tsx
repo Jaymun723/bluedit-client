@@ -7,15 +7,16 @@ import { WebsitePostPreview } from "./WebsitePost"
 
 interface PostPreviewProps {
   id: string
+  isFullPage?: boolean
 }
 
 export const PostPreview: React.FC<PostPreviewProps> = (props) => {
-  const { data, error, loading, variables } = usePostPreviewQuery({
+  const { data, error, loading } = usePostPreviewQuery({
     variables: { id: props.id },
   })
 
   if (loading) {
-    return <BasePostPreview id={props.id} />
+    return <BasePostPreview id={props.id} isFullPage={props.isFullPage} />
   }
 
   if (error || !data) {
@@ -48,6 +49,7 @@ export const PostPreview: React.FC<PostPreviewProps> = (props) => {
       userVote={data.post.userVote}
       voteCount={data.post.voteCount}
       id={data.post.id}
+      isFullPage={props.isFullPage}
     />
   )
 }

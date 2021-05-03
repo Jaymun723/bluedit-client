@@ -1,4 +1,4 @@
-import { Link } from "@reach/router"
+import { Link } from "react-router-dom"
 import React, { useState } from "react"
 import {
   useCommentPreviewQuery,
@@ -65,7 +65,7 @@ export const CommentPreview: React.FC<CommentPreviewProps> = (props) => {
   if (loading) {
     return (
       <div className="box is-flex is-justify-content-center">
-        <button className="button is-white is-loading" />
+        <button className="button is-text is-loading" />
         {/* {props.children} */}
       </div>
     )
@@ -128,7 +128,7 @@ export const CommentPreview: React.FC<CommentPreviewProps> = (props) => {
             {user && (
               <div className="level-item">
                 <button
-                  className={c("button", "is-medium", "is-white", commenting && "has-text-primary")}
+                  className={c("button", "is-medium", "is-text", commenting && "has-text-primary")}
                   onClick={() => setCommenting(!commenting)}
                 >
                   <span className="icon">
@@ -141,7 +141,7 @@ export const CommentPreview: React.FC<CommentPreviewProps> = (props) => {
               <>
                 <div className="level-item">
                   <button
-                    className={c("button", "is-medium", "is-white", editing && "has-text-primary")}
+                    className={c("button", "is-medium", "is-text", editing && "has-text-primary")}
                     onClick={() => {
                       if (editing === false) {
                         setEditingContent(data.comment.content)
@@ -157,7 +157,7 @@ export const CommentPreview: React.FC<CommentPreviewProps> = (props) => {
                   </button>
                 </div>
                 <div className="level-item">
-                  <button className="button is-white is-medium" onClick={startPopup}>
+                  <button className="button is-text is-medium" onClick={startPopup}>
                     <span className="icon">
                       <ion-icon name="trash-outline"></ion-icon>
                     </span>

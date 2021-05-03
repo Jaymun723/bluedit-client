@@ -34,7 +34,7 @@ export const BlueditFeed: React.FC<BlueditFeedProps> = (props) => {
   if (loading) {
     return (
       <div className="is-flex is-justify-content-center">
-        <button className="button is-white is-large is-loading" />
+        <button className="button is-text is-large is-loading" />
       </div>
     )
   }

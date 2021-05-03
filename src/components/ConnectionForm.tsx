@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
-import { Link } from "@reach/router"
+import { Link } from "react-router-dom"
 import { ApolloError } from "@apollo/client"
 
 export const ErrorDisplay: React.FC<{ error?: ApolloError }> = (props) => {
@@ -29,17 +29,21 @@ interface ConnectionFormProps {
 }
 export const ConnectionForm: React.FC<ConnectionFormProps> = (props) => {
   return (
-    <section className="hero is-fullheight is-info">
+    <section className="hero is-fullheight is-primary">
       <div className="hero-body">
         <div className="container">
           <div className="columns is-centered">
             <div className="box column is-one-third">
-              <h1 className="title has-text-centered has-text-black">{props.login ? "Log In" : "Sign Up"}</h1>
+              <h1 className="title has-text-centered">{props.login ? "Log In" : "Sign Up"}</h1>
               <ErrorDisplay error={props.error} />
               {props.children}
               <p className="has-text-centered mt-2">
-                {props.login ? <Link to="/sign-up">Sign Up</Link> : <Link to="/log-in">Log In</Link>} -{" "}
-                {/* <a href="#">Forgot password</a> -  */}
+                {props.login ? (
+                  <Link to="/sign-up">Sign Up</Link>
+                ) : (
+                  <Link to="/log-in">Log In</Link>
+                )}{" "}
+                - {/* <a href="#">Forgot password</a> -  */}
                 <Link to="/">Go back</Link>
               </p>
             </div>

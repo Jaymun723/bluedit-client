@@ -1,13 +1,10 @@
 import React from "react"
+import { useParams } from "react-router-dom"
 import { BaseLayout } from "../components/BaseLayout"
-import { RouteComponentProps } from "@reach/router"
 import { BlueditPreview } from "../components/Bluedit/BlueditPreview"
 import { Feed } from "../components/Feed"
 import { BlueditFeedDocument } from "../generated/graphql"
 
-interface BlueditProps extends RouteComponentProps {
-  name?: string
-}
 // const Bluedit: React.FC<BlueditProps> = (props) => {
 //   const [{ sort }] = useAppState()
 //   const { data: postsData, error: postsError } = useBlueditFeedQuery({
@@ -29,14 +26,16 @@ interface BlueditProps extends RouteComponentProps {
 //   )
 // }
 
-const BlueditPage: React.FC<BlueditProps> = (props) => {
+const BlueditPage: React.FC = (props) => {
+  const { name } = useParams()
+
   return (
     <BaseLayout>
-      <BlueditPreview name={props.name!} isWide />
+      <BlueditPreview name={name} isWide />
       <Feed
         query={BlueditFeedDocument}
         getPosts={(data) => data.blueditFeed}
-        queryVariables={{ name: props.name! }}
+        queryVariables={{ name: name }}
       />
     </BaseLayout>
   )

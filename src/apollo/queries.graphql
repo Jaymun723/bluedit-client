@@ -148,3 +148,7 @@ query PostComments($id: String!) {
     }
   }
 }
+
+query WebsitePreview($url: String!) {
+  websitePreview(url: $url)
+}

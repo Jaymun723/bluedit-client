@@ -5,8 +5,13 @@ interface CreatorState {
   contentType: ContentType
   title?: string
   blueditId?: string
-  content?: string
-  errorType?: ErrorType
+  blueditName?: string
+  content?: string | File
+  error?: {
+    type: ErrorType
+    message: string
+  }
+  websitePreview?: string
 }
 
 const initialState: CreatorState = {
@@ -25,31 +30,48 @@ interface SetTitleAction {
 
 interface ChooseBlueditAction {
   type: "CHOOSE_BLUEDIT_ACTION"
+  blueditName: string
   blueditId: string
 }
 
 interface SetContentAction {
   type: "SET_CONTENT_ACTION"
-  content: string
+  content: string | File | undefined
+}
+
+interface SetWebsitePreviewAction {
+  type: "SET_WEBSITE_PREVIEW_ACTION"
+  websitePreview: string
 }
 
 export enum ErrorType {
-  NoBluedit,
+  ServerError,
   NoTitle,
   NoContent,
-  TitleTooShort,
-  TitleTooLong,
-  ContentTooShort,
-  ContentTooLong,
-  TitleAlreadyUsed,
-  BadContent,
-  BadTitle,
-  ServerError,
+  NoBluedit,
+  InvalidUrl,
 }
+
+// export enum ErrorType {
+//   NoBluedit,
+//   NoTitle,
+//   NoContent,
+//   TitleTooShort,
+//   TitleTooLong,
+//   ContentTooShort,
+//   ContentTooLong,
+//   TitleAlreadyUsed,
+//   BadContent,
+//   BadTitle,
+//   ServerError,
+// }
 
 interface SetErrorTypeAction {
   type: "SET_ERROR_ACTION"
-  errorType: ErrorType
+  error: {
+    type: ErrorType
+    message: string
+  }
 }
 
 interface CloseErrorAction {
@@ -63,52 +85,41 @@ type CreatorActions =
   | SetContentAction
   | SetErrorTypeAction
   | CloseErrorAction
+  | SetWebsitePreviewAction
 
-const creatorReducer: Reducer<CreatorState, CreatorActions> = (prevState, action) => {
+const creatorReducer: Reducer<CreatorState, CreatorActions> = (prevState, action): CreatorState => {
   if (action.type === "CHOOSE_BLUEDIT_ACTION") {
     return {
       ...prevState,
+      blueditName: action.blueditName,
       blueditId: action.blueditId,
-      ...(prevState.errorType === ErrorType.NoBluedit ? { errorType: undefined } : {}),
+      ...(prevState.error?.type === ErrorType.NoBluedit ? { error: undefined } : {}),
     }
   } else if (action.type === "CLOSE_ERROR_ACTION") {
     return {
       ...prevState,
-      errorType: undefined,
+      error: undefined,
     }
   } else if (action.type === "SET_CONTENT_ACTION" || action.type === "SET_CONTENT_TYPE_ACTION") {
-    if (
-      prevState.errorType &&
-      prevState.errorType in
-        [
-          ErrorType.BadContent,
-          ErrorType.ContentTooLong,
-          ErrorType.ContentTooShort,
-          ErrorType.NoContent,
-        ]
-    ) {
-      prevState["errorType"] = undefined
+    // if (prevState.errorType && prevState.errorType in [ErrorType.InvalidUrl, ErrorType.NoContent]) {
+    //   prevState["errorType"] = undefined
+    // }
+    if (prevState.error && prevState.error.type in [ErrorType.InvalidUrl, ErrorType.NoContent]) {
+      prevState.error = undefined
     }
+
     return {
       ...prevState,
       content: action.type === "SET_CONTENT_ACTION" ? action.content : undefined,
+      websitePreview: undefined,
       contentType:
         action.type === "SET_CONTENT_TYPE_ACTION" ? action.contentType : prevState.contentType,
     }
   } else if (action.type === "SET_TITLE_ACTION") {
-    if (
-      prevState.errorType &&
-      prevState.errorType in
-        [
-          ErrorType.BadTitle,
-          ErrorType.TitleTooLong,
-          ErrorType.ContentTooShort,
-          ErrorType.NoTitle,
-          ErrorType.TitleAlreadyUsed,
-        ]
-    ) {
-      prevState["errorType"] = undefined
+    if (prevState.error && prevState.error.type === ErrorType.NoTitle) {
+      prevState.error = undefined
     }
+
     return {
       ...prevState,
       title: action.title,
@@ -116,7 +127,12 @@ const creatorReducer: Reducer<CreatorState, CreatorActions> = (prevState, action
   } else if (action.type === "SET_ERROR_ACTION") {
     return {
       ...prevState,
-      errorType: action.errorType,
+      error: action.error,
+    }
+  } else if (action.type === "SET_WEBSITE_PREVIEW_ACTION") {
+    return {
+      ...prevState,
+      websitePreview: action.websitePreview,
     }
   } else {
     return prevState

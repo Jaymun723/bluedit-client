@@ -1,18 +1,16 @@
-import { RouteComponentProps } from "@reach/router"
 import React from "react"
+import { useParams } from "react-router-dom"
 import { BaseLayout } from "../components/BaseLayout"
 import { CommentFeed } from "../components/Comment/CommentFeed"
-import { FullPagePost } from "../components/Post/FullPagePost"
+import { PostPreview } from "../components/Post/PostPreview"
 
-interface PostPageProps extends RouteComponentProps {
-  id?: string
-}
+const PostPage: React.FC = (props) => {
+  const { id } = useParams()
 
-const PostPage: React.FC<PostPageProps> = (props) => {
   return (
     <BaseLayout>
-      <FullPagePost id={props.id!} />
-      <CommentFeed postId={props.id!} />
+      <PostPreview id={id} isFullPage />
+      <CommentFeed postId={id} />
     </BaseLayout>
   )
 }

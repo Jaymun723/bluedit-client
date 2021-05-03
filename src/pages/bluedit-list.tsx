@@ -1,9 +1,8 @@
 import React from "react"
 import { BaseLayout } from "../components/BaseLayout"
-import { RouteComponentProps } from "@reach/router"
 import { BlueditFeed } from "../components/Bluedit"
 
-const BlueditList: React.FC<RouteComponentProps> = () => {
+const BlueditList: React.FC = () => {
   return (
     <BaseLayout title="List of Bluedits">
       <BlueditFeed />

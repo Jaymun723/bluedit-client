@@ -1,4 +1,4 @@
-import { Link } from "@reach/router"
+import { Link } from "react-router-dom"
 import React from "react"
 import {
   useBlueditPreviewQuery,
@@ -22,7 +22,7 @@ export const BlueditPreview: React.FC<BlueditPreviewProps> = (props) => {
       <div className={c("card", "my-2", !props.isWide && "is-post-card")}>
         <div className="card-content">
           <div className="is-flex is-justify-content-center is-align-items-center my-4">
-            <button className="button is-white is-large is-loading"></button>
+            <button className="button is-text is-large is-loading"></button>
           </div>
         </div>
       </div>
