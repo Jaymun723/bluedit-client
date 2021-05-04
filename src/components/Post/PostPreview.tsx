@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { ContentType, usePostPreviewQuery } from "../../generated/graphql"
 import { BasePostPreview } from "./BasePost"
@@ -9,12 +9,19 @@ import { WebsitePostPreview } from "./WebsitePost"
 interface PostPreviewProps {
   id: string
   isFullPage?: boolean
+  onLoaded?: () => void
 }
 
 export const PostPreview: React.FC<PostPreviewProps> = (props) => {
   const { data, error, loading } = usePostPreviewQuery({
     variables: { id: props.id },
   })
+
+  useEffect(() => {
+    if ((data || error) && props.onLoaded) {
+      props.onLoaded()
+    }
+  }, [data, error])
 
   if (loading) {
     return <BasePostPreview id={props.id} isFullPage={props.isFullPage} />

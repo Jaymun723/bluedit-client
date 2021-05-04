@@ -6,6 +6,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const TerserJSPlugin = require("terser-webpack-plugin")
 const Dotenv = require("dotenv-webpack")
+const CopyPlugin = require("copy-webpack-plugin")
+
+const outPath = path.resolve(__dirname, "dist")
 
 module.exports = (_, config) => {
   const dev = config.mode === "development"
@@ -16,18 +19,22 @@ module.exports = (_, config) => {
     output: {
       filename: "[name].js",
       chunkFilename: "[name].bundle.js",
-      path: path.resolve(__dirname, "dist"),
+      path: outPath,
       publicPath: "/",
     },
     plugins: [
       new MiniCssExtractPlugin({ filename: "[name].css", chunkFilename: "[id].css" }),
       new HtmlWebpackPlugin({
         template: "./src/index.html",
+        minify: !dev,
       }),
       new CleanWebpackPlugin(),
       // !dev && new BundleAnalyzerPlugin({ analyzerMode: "static" }),
       new Dotenv({
         systemvars: !dev,
+      }),
+      new CopyPlugin({
+        patterns: [{ from: "static", to: outPath }],
       }),
     ].filter(Boolean),
     module: {

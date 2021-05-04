@@ -4,7 +4,7 @@ import { DocumentNode, useLazyQuery } from "@apollo/client"
 import { MainFeedQuery, MainFeedQueryVariables } from "../../generated/graphql"
 import { c, LOAD_BATCH_SIZE } from "../../utils"
 import { FeedStateProvider, useFeedState } from "./FeedState"
-import { FeedPost } from "./PostFeed"
+import { PostPreview } from "../Post"
 import { SortTabs } from "./SortTabs"
 
 interface FeedProps {
@@ -51,7 +51,18 @@ const FeedLogic: React.FC<FeedProps> = (props) => {
       <SortTabs />
       <div className="container is-flex is-flex-direction-column is-align-items-center">
         {state.posts.map((post) => {
-          return <FeedPost key={post.id} id={post.id} />
+          return (
+            <PostPreview
+              key={post.id}
+              id={post.id}
+              onLoaded={() =>
+                dispatch({
+                  type: "SET_POST_LOADED_ACTION",
+                  id: post.id,
+                })
+              }
+            />
+          )
         })}
         <button
           className={c(
