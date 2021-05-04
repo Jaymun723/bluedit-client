@@ -1,6 +1,7 @@
-import React, { useRef, useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { ApolloError } from "@apollo/client"
+
 import { c } from "../utils"
 
 export const ErrorDisplay: React.FC<{ error?: ApolloError }> = (props) => {

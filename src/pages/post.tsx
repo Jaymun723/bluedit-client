@@ -1,8 +1,9 @@
 import React from "react"
 import { useParams } from "react-router-dom"
+
 import { BaseLayout } from "../components/BaseLayout"
-import { CommentFeed } from "../components/Comment/CommentFeed"
-import { PostPreview } from "../components/Post/PostPreview"
+import { CommentFeed } from "../components/Comment"
+import { PostPreview } from "../components/Post"
 
 const PostPage: React.FC = (props) => {
   const { id } = useParams()

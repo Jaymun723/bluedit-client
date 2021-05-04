@@ -1,9 +1,10 @@
 import React, { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+
 import { PersonalFeedDocument } from "../generated/graphql"
 import { useAppState } from "../components/AppState"
 import { BaseLayout } from "../components/BaseLayout"
 import { Feed } from "../components/Feed"
-import { useNavigate } from "react-router-dom"
 
 const PersonalFeed: React.FC = () => {
   const [{ user }] = useAppState()

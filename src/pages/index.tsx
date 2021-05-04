@@ -1,4 +1,5 @@
 import React from "react"
+
 import { MainFeedDocument } from "../generated/graphql"
 import { BaseLayout } from "../components/BaseLayout"
 import { Feed } from "../components/Feed"

@@ -1,6 +1,5 @@
-import { useMutation } from "@apollo/client"
 import React, { useState } from "react"
-import { usePostVoteMutation } from "../../generated/graphql"
+
 import { c } from "../../utils"
 import { useAppState } from "../AppState"
 

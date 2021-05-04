@@ -1,13 +1,9 @@
 import React from "react"
+
 import { ContentType } from "../../generated/graphql"
 import { simpleMarkdownParser } from "../../utils"
 import { useAppState } from "../AppState"
-import { CommentButton } from "../Buttons/CommentButton"
-import { ShareButton } from "../Buttons/ShareButton"
-import { UpVoteButtons } from "../Buttons/UpVoteButtons"
-import { useCreatorState } from "../Creator/CreatorState"
-import { BasePostPreview } from "../Post/BasePost"
-import { WebsiteDisplay } from "../Post/WebsitePost"
+import { BasePostPreview, WebsiteDisplay } from "../Post"
 import { usePopup } from "./ModalState"
 
 interface PreviewerOptions {

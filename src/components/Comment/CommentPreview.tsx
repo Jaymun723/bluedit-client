@@ -1,16 +1,12 @@
-import { Link } from "react-router-dom"
 import React, { useEffect, useState } from "react"
+
 import {
   useCommentPreviewQuery,
   useCommentVoteMutation,
   useEditCommentMutation,
   useRemoveCommentMutation,
 } from "../../generated/graphql"
-import { c } from "../../utils"
-import { useAppState } from "../AppState"
-import { UpVoteButtons } from "../Buttons/UpVoteButtons"
-import { usePopup } from "../Modals"
-import { useConfirmDelete } from "../Modals/ConfirmDelete"
+import { useConfirmDelete } from "../Modals"
 import { CommentInput } from "./CommentInput"
 import { CommentMarkup } from "./CommentMarkup"
 

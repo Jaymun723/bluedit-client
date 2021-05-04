@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { useNavigate } from "react-router"
-import { ContentType, useCreatePostMutation, useEditPostMutation } from "../../generated/graphql"
+import { useNavigate } from "react-router-dom"
+
+import { ContentType, useCreatePostMutation } from "../../generated/graphql"
 import { fileToImageUrl } from "../../utils"
-import { usePreviewer } from "../Modals/Previewer"
+import { usePreviewer } from "../Modals"
+
 import { BlueditSelector } from "./BlueditSelector"
 import { CreatorStateProvider, ErrorType, useCreatorState } from "./CreatorState"
 import { ErrorDisplay } from "./ErrorDisplay"
@@ -12,17 +14,6 @@ import { SubmitButton } from "./SubmitButton"
 import { TextEditor } from "./TextEditor"
 import { TitleEditor } from "./TitleInput"
 import { TypeSelector } from "./TypeSelector"
-
-// interface EditProps {
-//   type: "EDIT"
-//   id: string
-// }
-
-// interface CreateProps {
-//   type: "CREATE"
-// }
-
-// type CreatorRootProps = EditProps | CreateProps
 
 type CreatorRootProps = {}
 

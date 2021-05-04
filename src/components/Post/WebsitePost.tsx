@@ -1,4 +1,5 @@
 import React, { useMemo } from "react"
+
 import { BasePostPreviewProps, BasePostPreview } from "./BasePost"
 
 interface WebsitePostPreviewProps extends Omit<BasePostPreviewProps, "body"> {

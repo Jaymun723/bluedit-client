@@ -1,9 +1,10 @@
 import React, { useState } from "react"
+
 import { BaseLayout } from "../components/BaseLayout"
 import { useSearchQuery } from "../generated/graphql"
-import { BlueditPreview } from "../components/Bluedit/BlueditPreview"
-import { PostPreview } from "../components/Post/PostPreview"
-import { UserPreview } from "../components/User/UserPreview"
+import { BlueditPreview } from "../components/Bluedit"
+import { PostPreview } from "../components/Post"
+import { UserPreview } from "../components/User"
 
 const createSearchParams = (obj: { [x: string]: string }) => {
   const { searchParams } = new URL("https://example.com/")

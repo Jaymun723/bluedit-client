@@ -1,4 +1,5 @@
 import React from "react"
+
 import { SortType } from "../../generated/graphql"
 import { c } from "../../utils"
 import { useFeedState } from "./FeedState"

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
+
 import { useUserPostsQuery } from "../../generated/graphql"
 import { c, LOAD_BATCH_SIZE } from "../../utils"
-import { PostPreview } from "../Post/PostPreview"
+import { PostPreview } from "../Post"
 
 interface UserPostsFeedProps {
   userName: string

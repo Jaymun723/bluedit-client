@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom"
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
+
 import {
   PostCommentsDocument,
   PostCommentsQuery,
-  PostCommentsQueryResult,
   useCommentMutation,
 } from "../../generated/graphql"
 import { c } from "../../utils"

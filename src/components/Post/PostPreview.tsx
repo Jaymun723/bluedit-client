@@ -1,4 +1,5 @@
 import React from "react"
+
 import { ContentType, usePostPreviewQuery } from "../../generated/graphql"
 import { BasePostPreview } from "./BasePost"
 import { ImagePostPreview } from "./ImagePost"

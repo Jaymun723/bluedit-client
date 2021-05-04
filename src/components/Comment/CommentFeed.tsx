@@ -1,7 +1,7 @@
-import React, { useEffect } from "react"
+import React from "react"
+
 import { usePostCommentsQuery } from "../../generated/graphql"
 import { CommentInput } from "./CommentInput"
-import { CommentPreview } from "./CommentPreview"
 import { CommentTree } from "./CommentTree"
 
 interface CommentFeedProps {

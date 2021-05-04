@@ -1,7 +1,8 @@
 import React from "react"
-import { useUserPreviewQuery } from "../../generated/graphql"
-import { formatDistance } from "date-fns"
 import { Link } from "react-router-dom"
+import { formatDistance } from "date-fns"
+
+import { useUserPreviewQuery } from "../../generated/graphql"
 
 const DEFAULT_BIO = "Nothing here, for now..."
 
@@ -49,9 +50,7 @@ export const UserPreview: React.FC<UserPreviewProps> = (props) => {
         <div className="columns">
           <div className="column">
             <p className="title">
-              <Link to={`/u/${data.user.name}`} className="has-text-black">
-                /u/{data.user.name}
-              </Link>
+              <Link to={`/u/${data.user.name}`}>/u/{data.user.name}</Link>
             </p>
             <p className="subtitle">
               Joined {formatDistance(new Date(data.user.createdAt), new Date())} ago.

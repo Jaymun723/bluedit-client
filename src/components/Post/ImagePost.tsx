@@ -1,14 +1,6 @@
-import { Link, useNavigate } from "react-router-dom"
-import { formatDistance } from "date-fns"
 import React, { useEffect, useRef, useState } from "react"
-import { usePostVoteMutation, useRemovePostMutation } from "../../generated/graphql"
-import { c } from "../../utils"
-import { useAppState } from "../AppState"
-import { CommentButton } from "../Buttons/CommentButton"
-import { ShareButton } from "../Buttons/ShareButton"
-import { UpVoteButtons } from "../Buttons/UpVoteButtons"
-import { useConfirmDelete } from "../Modals/ConfirmDelete"
-import { useImageViewer } from "../Modals/ImageViewer"
+
+import { useImageViewer } from "../Modals"
 import { BasePostPreview, BasePostPreviewProps } from "./BasePost"
 
 interface ImagePostPreviewProps extends Omit<BasePostPreviewProps, "body"> {

@@ -1,4 +1,5 @@
 import React from "react"
+
 import { usePopup } from "./ModalState"
 
 const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1)

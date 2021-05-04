@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { AllBlueditsQuery, useAllBlueditsQuery } from "../../generated/graphql"
+
+import { useAllBlueditsQuery } from "../../generated/graphql"
 import { c } from "../../utils"
 import { LOAD_BATCH_SIZE } from "../../utils"
 import { BlueditPreview } from "./BlueditPreview"

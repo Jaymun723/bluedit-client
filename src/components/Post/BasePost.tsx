@@ -1,13 +1,12 @@
 import React from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { UpVoteButtons } from "../Buttons/UpVoteButtons"
 import { formatDistance } from "date-fns"
-import { CommentButton } from "../Buttons/CommentButton"
-import { ShareButton } from "../Buttons/ShareButton"
+
+import { UpVoteButtons, CommentButton, ShareButton } from "../Buttons"
 import { c } from "../../utils"
 import { usePostVoteMutation, useRemovePostMutation } from "../../generated/graphql"
 import { useAppState } from "../AppState"
-import { useConfirmDelete } from "../Modals/ConfirmDelete"
+import { useConfirmDelete } from "../Modals"
 
 export interface BasePostPreviewProps {
   id: string

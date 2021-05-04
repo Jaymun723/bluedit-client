@@ -1,5 +1,6 @@
-import { DocumentNode, useLazyQuery } from "@apollo/client"
 import React, { useEffect } from "react"
+import { DocumentNode, useLazyQuery } from "@apollo/client"
+
 import { MainFeedQuery, MainFeedQueryVariables } from "../../generated/graphql"
 import { c, LOAD_BATCH_SIZE } from "../../utils"
 import { FeedStateProvider, useFeedState } from "./FeedState"

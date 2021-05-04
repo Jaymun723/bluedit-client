@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react"
+import { Helmet } from "react-helmet"
+import { useNavigate } from "react-router-dom"
+
 import { ConnectionForm, Field, SubmitButton } from "../components/ConnectionForm"
 import { useAppState } from "../components/AppState"
 import { useCreateAccountMutation } from "../generated/graphql"
 import { login } from "../apollo/auth"
-import { Helmet } from "react-helmet"
-import { useNavigate } from "react-router-dom"
 
 const SignUp: React.FC = () => {
   const [name, setName] = useState("")

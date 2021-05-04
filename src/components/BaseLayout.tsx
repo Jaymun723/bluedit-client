@@ -1,6 +1,7 @@
 import React from "react"
-import { NavBar } from "./Navbar"
 import { Helmet } from "react-helmet"
+
+import { NavBar } from "./Navbar"
 
 const DEFAULT_TITLE = "Bluedit"
 const DEFAULT_DESCRIPTION =

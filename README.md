@@ -1,11 +1,15 @@
 Todo:
 
-- Weird feed behavior
-- seo
+- Better post component usage
 
-- refactor code
-- comment tree optimisation
+- Fix weird feed behavior
+- seo, enable pre-rendering / server-side rendering
+- Refactor client code / make a good looking codebase
+
 - share button
+- comment tree optimisation
+
+- email & notifications
 
 - better profile edition
 - bluedit sort

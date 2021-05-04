@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom"
 import React from "react"
+import { Link } from "react-router-dom"
+
 import {
   useBlueditPreviewQuery,
   useSubscribeMutation,
@@ -7,7 +8,7 @@ import {
 } from "../../generated/graphql"
 import { c } from "../../utils"
 import { useAppState } from "../AppState"
-import { SubscribeButton } from "../Buttons/SubscribeButton"
+import { SubscribeButton } from "../Buttons"
 
 type BlueditPreviewProps = ({ id: string } | { name: string }) & { isWide?: boolean }
 
@@ -44,9 +45,7 @@ export const BlueditPreview: React.FC<BlueditPreviewProps> = (props) => {
         <div className="columns">
           <div className="column">
             <p className="title">
-              <Link to={`/b/${data.bluedit.name}`} className="has-text-black">
-                /b/{data.bluedit.name}
-              </Link>
+              <Link to={`/b/${data.bluedit.name}`}>/b/{data.bluedit.name}</Link>
             </p>
             <p className="subtitle">
               {data.bluedit.subscriberCount} subscriber{data.bluedit.subscriberCount > 1 && "s"} -{" "}

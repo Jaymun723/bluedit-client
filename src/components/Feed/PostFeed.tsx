@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
+
 import { ContentType, usePostPreviewQuery } from "../../generated/graphql"
-import { BasePostPreview } from "../Post/BasePost"
-import { ImagePostPreview } from "../Post/ImagePost"
-import { TextPostPreview } from "../Post/TextPost"
-import { WebsitePostPreview } from "../Post/WebsitePost"
+import { BasePostPreview, WebsitePostPreview, ImagePostPreview, TextPostPreview } from "../Post"
 import { useFeedState } from "./FeedState"
 
 export const FeedPost: React.FC<{ id: string }> = (props) => {

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+
 import { ErrorDisplay, Field, SubmitButton } from "../components/ConnectionForm"
 import { useUserSettingsQuery, useUpdateUserSettingsMutation } from "../generated/graphql"
 import { useAppState } from "../components/AppState"
 import { setUser } from "../apollo/auth"
 import { BaseLayout } from "../components/BaseLayout"
-import { useNavigate } from "react-router-dom"
 
 const AccountSettings: React.FC = () => {
   const { data } = useUserSettingsQuery({ fetchPolicy: "cache-and-network" })

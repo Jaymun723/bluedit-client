@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from "react"
+
+import { useWebsitePreviewLazyQuery } from "../../generated/graphql"
 import { useCreatorState } from "./CreatorState"
-import { ContentType, useWebsitePreviewLazyQuery } from "../../generated/graphql"
 import { debounce, isValidHttpUrl } from "../../utils"
-import { BasePostPreview } from "../Post/BasePost"
-import { WebsiteDisplay } from "../Post/WebsitePost"
+import { BasePostPreview, WebsiteDisplay } from "../Post"
 import { useAppState } from "../AppState"
 
 interface LinkEditorProps {}

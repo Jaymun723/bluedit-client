@@ -1,10 +1,9 @@
 import React from "react"
 import { Link } from "react-router-dom"
+
 import { c } from "../../utils"
 import { useAppState } from "../AppState"
-import { CommentButton } from "../Buttons/CommentButton"
-import { ShareButton } from "../Buttons/ShareButton"
-import { UpVoteButtons } from "../Buttons/UpVoteButtons"
+import { CommentButton, ShareButton, UpVoteButtons } from "../Buttons"
 
 interface CommentMarkupProps {
   commentId: string

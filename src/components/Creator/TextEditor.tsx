@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react"
+
 import { simpleMarkdownParser } from "../../utils"
-import { useMarkdownFeatures } from "../Modals/MarkdownFeatures"
+import { useMarkdownFeatures } from "../Modals"
 import { useCreatorState } from "./CreatorState"
 
 interface TextEditorProps {}
