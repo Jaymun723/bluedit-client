@@ -1,0 +1,15 @@
+.holder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 5;
+  margin-top: 5rem;
+
+  & .notification {
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+}

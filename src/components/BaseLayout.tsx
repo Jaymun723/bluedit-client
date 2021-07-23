@@ -2,6 +2,7 @@ import React from "react"
 import { Helmet } from "react-helmet"
 
 import { NavBar } from "./Navbar"
+import { AppNotificationsRenderer } from "./Notifications"
 
 const DEFAULT_TITLE = "Bluedit"
 const DEFAULT_DESCRIPTION =
@@ -26,6 +27,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = (props) => {
         <meta property="og:url" content={location.href} />
         <meta property="og:site_name" content={SITE_NAME} />
       </Helmet>
+      <AppNotificationsRenderer />
       <NavBar />
       <section className="section">
         <div className="container">{props.children}</div>

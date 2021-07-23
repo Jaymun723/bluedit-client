@@ -16,6 +16,7 @@ import { SignOut } from "./pages/sign-out"
 import { PageLoader } from "./components/PageLoader"
 
 import DevPage from "./pages/dev"
+import { AppNotificationsProvider } from "./components/Notifications"
 
 const Index = lazy(() => import("./pages/index"))
 const LogIn = lazy(() => import("./pages/log-in"))
@@ -35,39 +36,41 @@ const Post = lazy(() => import("./pages/post"))
 const App = () => {
   return (
     <AppStateProvider>
-      <ApolloProvider client={apolloClient}>
-        <Suspense fallback={<PageLoader />}>
-          <BrowserRouter>
-            <PopupProvider>
-              <Routes>
-                <Route path="/" element={<Index />} />
+      <AppNotificationsProvider>
+        <ApolloProvider client={apolloClient}>
+          <Suspense fallback={<PageLoader />}>
+            <BrowserRouter>
+              <PopupProvider>
+                <Routes>
+                  <Route path="/" element={<Index />} />
 
-                {process.env.NODE_ENV === "development" && (
-                  <Route path="dev" element={<DevPage />} />
-                )}
+                  {process.env.NODE_ENV === "development" && (
+                    <Route path="dev" element={<DevPage />} />
+                  )}
 
-                <Route path="log-in" element={<LogIn />} />
-                <Route path="sign-up" element={<SignUp />} />
-                <Route path="sign-out" element={<SignOut />} />
+                  <Route path="log-in" element={<LogIn />} />
+                  <Route path="sign-up" element={<SignUp />} />
+                  <Route path="sign-out" element={<SignOut />} />
 
-                <Route path="personal-feed" element={<PersonalFeed />} />
-                <Route path="account-settings" element={<AccountSettings />} />
-                <Route path="search" element={<Search />} />
-                <Route path="new-post" element={<NewPost />} />
+                  <Route path="personal-feed" element={<PersonalFeed />} />
+                  <Route path="account-settings" element={<AccountSettings />} />
+                  <Route path="search" element={<Search />} />
+                  <Route path="new-post" element={<NewPost />} />
 
-                <Route path="b">
-                  <Route path="/" element={<BlueditList />} />
-                  <Route path=":name" element={<Bluedit />} />
-                </Route>
+                  <Route path="b">
+                    <Route path="/" element={<BlueditList />} />
+                    <Route path=":name" element={<Bluedit />} />
+                  </Route>
 
-                <Route path="u/:name" element={<User />} />
+                  <Route path="u/:name" element={<User />} />
 
-                <Route path="p/:id" element={<Post />} />
-              </Routes>
-            </PopupProvider>
-          </BrowserRouter>
-        </Suspense>
-      </ApolloProvider>
+                  <Route path="p/:id" element={<Post />} />
+                </Routes>
+              </PopupProvider>
+            </BrowserRouter>
+          </Suspense>
+        </ApolloProvider>
+      </AppNotificationsProvider>
     </AppStateProvider>
   )
 }

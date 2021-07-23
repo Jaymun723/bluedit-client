@@ -147,6 +147,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
           </div>
         </div>
       </div>
+      {props.children}
     </nav>
   )
 }
