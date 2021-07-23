@@ -19,30 +19,7 @@ const myFetch: WindowOrWorkerGlobalScope["fetch"] = (input, ops = {}) => {
   return fetch(input, ops)
 }
 
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        bluedits: {
-          keyArgs: false,
-          merge(existing = [], incoming) {
-            return [...existing, ...incoming]
-          },
-        },
-      },
-    },
-    User: {
-      fields: {
-        posts: {
-          keyArgs: false,
-          merge(existing = [], incoming) {
-            return [...existing, ...incoming]
-          },
-        },
-      },
-    },
-  },
-})
+const cache = new InMemoryCache()
 
 export const apolloClient = new ApolloClient({
   cache,

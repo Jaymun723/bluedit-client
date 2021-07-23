@@ -1,6 +1,8 @@
 import React, { useEffect } from "react"
 
 import { ContentType, usePostPreviewQuery } from "../../generated/graphql"
+import { networkError } from "../../utils"
+import { useAppNotifications } from "../Notifications"
 import { BasePostPreview } from "./BasePost"
 import { ImagePostPreview } from "./ImagePost"
 import { TextPostPreview } from "./TextPost"
@@ -16,6 +18,7 @@ export const PostPreview: React.FC<PostPreviewProps> = (props) => {
   const { data, error, loading } = usePostPreviewQuery({
     variables: { id: props.id },
   })
+  const { pushNotification } = useAppNotifications()
 
   useEffect(() => {
     if ((data || error) && props.onLoaded) {
@@ -29,6 +32,7 @@ export const PostPreview: React.FC<PostPreviewProps> = (props) => {
 
   if (error || !data) {
     console.error(error)
+    pushNotification(networkError)
     if (process.env.NODE_ENV === "development") {
       return <div style={{ border: "1px solid red" }}>{JSON.stringify(error)}</div>
     } else {

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import {
@@ -8,6 +8,7 @@ import {
 } from "../../generated/graphql"
 import { c } from "../../utils"
 import { useAppState } from "../AppState"
+import { AppNotificationType, useAppNotifications } from "../Notifications"
 
 interface CommentInputProps {
   postId: string
@@ -20,10 +21,18 @@ export const CommentInput: React.FC<CommentInputProps> = (props) => {
   const [content, setContent] = useState("")
   const [comment, { error }] = useCommentMutation()
   const [loading, setLoading] = useState(false)
+  const { pushNotification } = useAppNotifications()
 
-  if (error) {
-    console.log(error)
-  }
+  useEffect(() => {
+    if (error) {
+      pushNotification({
+        text: error.message,
+        baseOpacity: 1,
+        timing: 3000,
+        type: AppNotificationType.DANGER,
+      })
+    }
+  }, [error])
 
   return (
     <div className="card block">

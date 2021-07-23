@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { AppNotificationType } from "./components/Notifications"
+import { SortType } from "./generated/graphql"
 
 export const c = (...args: Array<string | null | boolean | undefined>) => {
   return args
@@ -8,6 +10,7 @@ export const c = (...args: Array<string | null | boolean | undefined>) => {
 }
 
 export const LOAD_BATCH_SIZE = 5
+export const DEFAULT_SORT_TYPE = SortType.New
 
 export const useDelay = <T,>(delayedValue: T, time: number) => {
   const [value, setValue] = useState(undefined as T | undefined)
@@ -89,4 +92,12 @@ export const pureText = (text: string) => {
     ) // links
 
   return toHTML.trim() // using trim method to remove whitespace
+}
+
+export const networkError = {
+  baseOpacity: 1,
+  text:
+    "An error occurred while fetching data. Try to reload the page. If the problem still occurs please contact an admin.",
+  timing: 10_000,
+  type: AppNotificationType.DANGER,
 }

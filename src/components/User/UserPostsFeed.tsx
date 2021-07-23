@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
 
 import { useUserPostsQuery } from "../../generated/graphql"
-import { c, LOAD_BATCH_SIZE } from "../../utils"
+import { c, LOAD_BATCH_SIZE, networkError } from "../../utils"
+import { useAppNotifications } from "../Notifications"
 import { PostPreview } from "../Post"
 
 interface UserPostsFeedProps {
@@ -20,6 +21,7 @@ export const UserPostsFeed: React.FC<UserPostsFeedProps> = (props) => {
   })
   const [skip, setSkip] = useState(0)
   const [fetching, setFetching] = useState(false)
+  const { pushNotification } = useAppNotifications()
 
   useEffect(() => {
     if (skip !== 0) {
@@ -46,6 +48,7 @@ export const UserPostsFeed: React.FC<UserPostsFeedProps> = (props) => {
 
   if (error || !data) {
     console.error(error)
+    pushNotification(networkError)
     if (process.env.NODE_ENV === "development") {
       return <div style={{ border: "1ps solid red" }}>{JSON.stringify(error)}</div>
     } else {

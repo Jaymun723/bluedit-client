@@ -4,31 +4,32 @@ import { SortType } from "../../generated/graphql"
 import { LOAD_BATCH_SIZE } from "../../utils"
 
 interface FeedState {
-  posts: {
-    id: string
-    loaded: boolean
-  }[]
+  elements: { id: string; loaded: boolean }[]
   skipIndex: number
-  sortType: SortType
   isFetching: boolean
+  variables?: any
 }
 
 const initialState: FeedState = {
-  posts: [],
+  elements: [],
   skipIndex: 0,
-  isFetching: true,
-  sortType: SortType.Trending,
+  isFetching: false,
 }
 
-interface AddPostsAction {
-  type: "ADD_POSTS_ACTION"
-  posts: {
+interface SetBaseVariablesAction {
+  type: "SET_BASE_VARIABLES_ACTION"
+  variables: any
+}
+
+interface AddElementAction {
+  type: "ADD_ELEMENTS_ACTION"
+  elements: {
     id: string
   }[]
 }
 
-interface SetPostLoadedAction {
-  type: "SET_POST_LOADED_ACTION"
+interface SetElementLoadedAction {
+  type: "SET_ELEMENT_LOADED_ACTION"
   id: string
 }
 
@@ -36,19 +37,21 @@ interface FetchMoreAction {
   type: "FETCH_MORE_ACTION"
 }
 
-interface SetSortTypeAction {
-  type: "SET_SORT_TYPE_ACTION"
-  sortType: SortType
-}
-
-type FeedActions = AddPostsAction | SetPostLoadedAction | FetchMoreAction | SetSortTypeAction
+type FeedActions =
+  | AddElementAction
+  | SetElementLoadedAction
+  | FetchMoreAction
+  | SetBaseVariablesAction
 
 const feedReducer: Reducer<FeedState, FeedActions> = (prevState, action) => {
   switch (action.type) {
-    case "ADD_POSTS_ACTION":
+    case "ADD_ELEMENTS_ACTION":
       return {
         ...prevState,
-        posts: [...prevState.posts, ...action.posts.map(({ id }) => ({ id, loaded: false }))],
+        elements: [
+          ...prevState.elements,
+          ...action.elements.map(({ id }) => ({ id, loaded: false })),
+        ],
         isFetching: false,
       }
     case "FETCH_MORE_ACTION":
@@ -57,25 +60,22 @@ const feedReducer: Reducer<FeedState, FeedActions> = (prevState, action) => {
         isFetching: true,
         skipIndex: prevState.skipIndex + LOAD_BATCH_SIZE,
       }
-    case "SET_POST_LOADED_ACTION":
+    case "SET_BASE_VARIABLES_ACTION":
       return {
         ...prevState,
-        posts: prevState.posts.map((post) => ({
-          ...post,
-          loaded: post.id === action.id ? true : post.loaded,
+        isFetching: true,
+        skipIndex: 0,
+        elements: [],
+        variables: action.variables,
+      }
+    case "SET_ELEMENT_LOADED_ACTION":
+      return {
+        ...prevState,
+        elements: prevState.elements.map((element) => ({
+          ...element,
+          loaded: element.id === action.id ? true : element.loaded,
         })),
       }
-    case "SET_SORT_TYPE_ACTION":
-      return action.sortType !== prevState.sortType
-        ? {
-            ...prevState,
-            posts: [],
-            isFetching: true,
-            skipIndex: 0,
-            sortType: action.sortType,
-          }
-        : prevState
-
     default:
       return prevState
   }

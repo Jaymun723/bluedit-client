@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
 
 import {
@@ -6,17 +6,28 @@ import {
   useSubscribeMutation,
   useUnsubscribeMutation,
 } from "../../generated/graphql"
-import { c } from "../../utils"
+import { c, networkError } from "../../utils"
 import { useAppState } from "../AppState"
 import { SubscribeButton } from "../Buttons"
+import { useAppNotifications } from "../Notifications"
 
-type BlueditPreviewProps = ({ id: string } | { name: string }) & { isWide?: boolean }
+type BlueditPreviewProps = ({ id: string } | { name: string }) & {
+  isWide?: boolean
+  onLoaded?: () => void
+}
 
 export const BlueditPreview: React.FC<BlueditPreviewProps> = (props) => {
   const { data, loading, error } = useBlueditPreviewQuery({ variables: props })
   const [subscribe] = useSubscribeMutation()
   const [unsubscribe] = useUnsubscribeMutation()
   const [{ user }] = useAppState()
+  const { pushNotification } = useAppNotifications()
+
+  useEffect(() => {
+    if ((data || error) && props.onLoaded) {
+      props.onLoaded()
+    }
+  }, [data, error])
 
   if (loading) {
     return (
@@ -32,6 +43,7 @@ export const BlueditPreview: React.FC<BlueditPreviewProps> = (props) => {
 
   if (error || !data) {
     console.error(error || "no data")
+    pushNotification(networkError)
     if (process.env.NODE_ENV === "development") {
       return <div style={{ border: "1px solid red" }}>{JSON.stringify(error || "no data")}</div>
     } else {

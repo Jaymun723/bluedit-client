@@ -1,93 +1,88 @@
 import React, { useEffect } from "react"
-import { DocumentNode, useLazyQuery } from "@apollo/client"
+import { DocumentNode, TypedDocumentNode, useLazyQuery } from "@apollo/client"
 
 import { MainFeedQuery, MainFeedQueryVariables } from "../../generated/graphql"
-import { c, LOAD_BATCH_SIZE } from "../../utils"
+import { c, LOAD_BATCH_SIZE, networkError } from "../../utils"
 import { FeedStateProvider, useFeedState } from "./FeedState"
 import { PostPreview } from "../Post"
-import { SortTabs } from "./SortTabs"
+import { useAppNotifications } from "../Notifications"
 
-interface FeedProps {
+export interface FeedProps {
   query: DocumentNode
-  getPosts: (data: any) => { id: string }[]
-  queryVariables?: any
+  getElements: (data: any) => { id: string }[]
+  renderElement: (id: string) => JSX.Element
+  baseVariables?: any
 }
 
-const FeedLogic: React.FC<FeedProps> = (props) => {
+const Dummy: React.FC<{ renderElement: FeedProps["renderElement"]; id: string }> = (props) =>
+  props.renderElement(props.id)
+
+export const Feed = (props: FeedProps) => {
   const [state, dispatch] = useFeedState()
-  const [query, res] = useLazyQuery<MainFeedQuery, MainFeedQueryVariables>(props.query)
+  const [query, res] = useLazyQuery(props.query)
+  const { pushNotification } = useAppNotifications()
 
   useEffect(() => {
-    query({
-      variables: {
-        sort: state.sortType,
-        pagination: {
-          skip: state.skipIndex,
-          take: LOAD_BATCH_SIZE,
-        },
-        ...(props.queryVariables ? props.queryVariables : {}),
-      },
+    dispatch({
+      type: "SET_BASE_VARIABLES_ACTION",
+      variables: props.baseVariables,
     })
-  }, [state.skipIndex, state.sortType])
+  }, [props.query])
+
+  useEffect(() => {
+    if (state.isFetching) {
+      query({
+        variables: {
+          ...props.baseVariables,
+          ...state.variables,
+          pagination: {
+            skip: state.skipIndex,
+            take: LOAD_BATCH_SIZE,
+          },
+        },
+      })
+    }
+  }, [state.skipIndex, state.isFetching])
 
   useEffect(() => {
     if (res.called) {
       const { error, data, variables } = res
 
-      if (error) console.error(error)
+      if (error) {
+        pushNotification(networkError)
+        console.error(error)
+      }
 
-      if (data && variables?.sort === state.sortType) {
-        const posts = props.getPosts(data)
+      if (data) {
+        const elements = props.getElements(data)
         dispatch({
-          type: "ADD_POSTS_ACTION",
-          posts,
+          type: "ADD_ELEMENTS_ACTION",
+          elements,
         })
       }
     }
   }, [res])
 
   return (
-    <>
-      <SortTabs />
-      <div className="container is-flex is-flex-direction-column is-align-items-center">
-        {state.posts.map((post) => {
-          return (
-            <PostPreview
-              key={post.id}
-              id={post.id}
-              onLoaded={() =>
-                dispatch({
-                  type: "SET_POST_LOADED_ACTION",
-                  id: post.id,
-                })
-              }
-            />
-          )
-        })}
-        <button
-          className={c(
-            "button",
-            "is-primary",
-            "is-medium",
-            (state.isFetching || state.posts.some(({ loaded }) => !loaded)) && "is-loading"
-          )}
-          onClick={() => {
-            dispatch({
-              type: "FETCH_MORE_ACTION",
-            })
-          }}
-        >
-          Fetch more !
-        </button>
-      </div>
-    </>
-  )
-}
-
-export const Feed: React.FC<FeedProps> = (props) => {
-  return (
-    <FeedStateProvider>
-      <FeedLogic {...props} />
-    </FeedStateProvider>
+    <div className="container is-flex is-flex-direction-column is-align-items-center">
+      {state.elements.map(({ id }) => (
+        <Dummy key={id} renderElement={props.renderElement} id={id} />
+      ))}
+      <button
+        className={c(
+          "button",
+          "is-primary",
+          "is-medium",
+          (state.isFetching || state.elements.some(({ loaded }) => !loaded)) && "is-loading"
+        )}
+        onClick={() => {
+          dispatch({
+            type: "FETCH_MORE_ACTION",
+          })
+        }}
+      >
+        Fetch more !
+      </button>
+    </div>
   )
 }

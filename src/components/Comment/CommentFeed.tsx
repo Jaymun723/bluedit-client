@@ -1,6 +1,8 @@
 import React from "react"
 
 import { usePostCommentsQuery } from "../../generated/graphql"
+import { networkError } from "../../utils"
+import { useAppNotifications } from "../Notifications"
 import { CommentInput } from "./CommentInput"
 import { CommentTree } from "./CommentTree"
 
@@ -11,9 +13,8 @@ interface CommentFeedProps {
 export const CommentFeed: React.FC<CommentFeedProps> = (props) => {
   const { data, error, loading } = usePostCommentsQuery({
     variables: { id: props.postId },
-    // fetchPolicy: "cache-and-network",
-    // fetchPolicy: ""
   })
+  const { pushNotification } = useAppNotifications()
 
   if (loading) {
     return (
@@ -25,6 +26,7 @@ export const CommentFeed: React.FC<CommentFeedProps> = (props) => {
 
   if (error || !data) {
     console.error(error)
+    pushNotification(networkError)
     if (process.env.NODE_ENV === "development") {
       return <div style={{ border: "1px solid red" }}>{JSON.stringify(error)}</div>
     } else {

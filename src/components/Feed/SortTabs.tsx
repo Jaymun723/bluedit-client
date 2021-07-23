@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 
 import { SortType } from "../../generated/graphql"
 import { c } from "../../utils"
@@ -9,14 +9,16 @@ export const SortTabs = () => {
 
   const changeSort = (type: SortType) => () =>
     dispatch({
-      type: "SET_SORT_TYPE_ACTION",
-      sortType: type,
+      type: "SET_BASE_VARIABLES_ACTION",
+      variables: {
+        sort: type,
+      },
     })
 
   return (
     <div className="tabs is-fullwidth">
       <ul>
-        <li className={c(state.sortType === SortType.Trending && "is-active")}>
+        <li className={c(state.variables?.sort === SortType.Trending && "is-active")}>
           <a onClick={changeSort(SortType.Trending)}>
             <span className="icon is-small">
               <ion-icon name="flame-outline"></ion-icon>
@@ -24,7 +26,7 @@ export const SortTabs = () => {
             <span>Trending</span>
           </a>
         </li>
-        <li className={c(state.sortType === SortType.New && "is-active")}>
+        <li className={c(state.variables?.sort === SortType.New && "is-active")}>
           <a onClick={changeSort(SortType.New)}>
             <span className="icon is-small">
               <ion-icon name="trending-up-outline"></ion-icon>
@@ -32,7 +34,7 @@ export const SortTabs = () => {
             <span>New</span>
           </a>
         </li>
-        <li className={c(state.sortType === SortType.Best && "is-active")}>
+        <li className={c(state.variables?.sort === SortType.Best && "is-active")}>
           <a onClick={changeSort(SortType.Best)}>
             <span className="icon is-small">
               <ion-icon name="podium-outline"></ion-icon>

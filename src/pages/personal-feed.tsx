@@ -1,14 +1,18 @@
 import React, { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { PersonalFeedDocument } from "../generated/graphql"
+import { PersonalFeedDocument, SortType } from "../generated/graphql"
 import { useAppState } from "../components/AppState"
 import { BaseLayout } from "../components/BaseLayout"
-import { Feed } from "../components/Feed"
+import { Feed, useFeedState } from "../components/Feed"
+import { PostPreview } from "../components/Post"
+import { SortTabs } from "../components/Feed/SortTabs"
+import { DEFAULT_SORT_TYPE } from "../utils"
 
 const PersonalFeed: React.FC = () => {
   const [{ user }] = useAppState()
   const navigate = useNavigate()
+  const [_, dispatch] = useFeedState()
 
   useEffect(() => {
     if (!user) {
@@ -18,7 +22,23 @@ const PersonalFeed: React.FC = () => {
 
   return (
     <BaseLayout title="Personal Feed">
-      <Feed query={PersonalFeedDocument} getPosts={(data) => data.personalFeed} />
+      <SortTabs />
+      <Feed
+        query={PersonalFeedDocument}
+        getElements={(data) => data.personalFeed}
+        baseVariables={{ sort: DEFAULT_SORT_TYPE }}
+        renderElement={(id) => (
+          <PostPreview
+            id={id}
+            onLoaded={() =>
+              dispatch({
+                type: "SET_ELEMENT_LOADED_ACTION",
+                id,
+              })
+            }
+          />
+        )}
+      />
     </BaseLayout>
   )
 }
