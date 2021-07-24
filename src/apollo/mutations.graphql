@@ -18,11 +18,24 @@ mutation CreateAccount($name: String!, $email: String!, $password: String!) {
   }
 }
 
-mutation UpdateUserSettings($name: String, $email: String, $bio: String, $password: String) {
-  changeAccountSettings(name: $name, email: $email, bio: $bio, password: $password) {
+mutation UpdateUserSettings(
+  $name: String
+  $email: String
+  $bio: String
+  $password: String
+  $emailOnComment: Boolean
+) {
+  changeAccountSettings(
+    name: $name
+    email: $email
+    bio: $bio
+    password: $password
+    emailOnComment: $emailOnComment
+  ) {
     id
     name
     email
+    emailOnComment
     bio
   }
 }

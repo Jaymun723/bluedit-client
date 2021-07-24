@@ -51,7 +51,7 @@ export const CommentMarkup: React.FC<CommentMarkupProps> = (props) => {
   }
 
   return (
-    <div className={c("box", "comment", props.last && "last-comment")}>
+    <div className={c("box", "comment", props.last && "last-comment")} id={props.commentId}>
       <h4 className="title is-5 mb-1">
         <Link to={`/u/${props.author.name}`}>/u/{props.author.name}</Link>
       </h4>
@@ -71,7 +71,7 @@ export const CommentMarkup: React.FC<CommentMarkupProps> = (props) => {
       ) : (
         <div className="content mb-0">{props.content}</div>
       )}
-      <div className="level mb-0">
+      <div className="level is-mobile mb-0">
         <div className="level-left">
           <div className="level-item">
             <UpVoteButtons
@@ -86,7 +86,7 @@ export const CommentMarkup: React.FC<CommentMarkupProps> = (props) => {
             <CommentButton onClick={props.onClickComment} small active={props.commenting} />
           </div>
           <div className="level-item">
-            <ShareButton small url="#" />
+            <ShareButton small url={`${window.location.pathname}#${props.commentId}`} />
           </div>
           {user?.id === props.author.id && (
             <>

@@ -61,6 +61,9 @@ export const CommentPreview: React.FC<CommentPreviewProps> = (props) => {
   useEffect(() => {
     if (data) {
       setEditingContent(data.comment.content)
+      if (window.location.hash.slice(1) === data.comment.id) {
+        document.getElementById(data.comment.id)?.scrollIntoView({ behavior: "smooth" })
+      }
     }
   }, [data])
 

@@ -1,15 +1,11 @@
 Todo:
 
-- seo, enable pre-rendering / server-side rendering
-- Refactor client code / make a good looking codebase
-- share button
+- seo, enable pre-rendering / server-side rendering (cool card I think thats all for now)
+- Refactor client code / make a good looking codebase (halfway done, I guess ?)
 
-- comment tree optimisation
-- Fix weird feed behavior (still existing ?)
+- FEED BUGS AGAIN ????
+- comment tree optimisation (to lazy to do)
 
-- email & notifications
-
-- better profile edition
 - bluedit sort
 
 - users roles (admin & mod)

@@ -69,6 +69,7 @@ export const CommentInput: React.FC<CommentInputProps> = (props) => {
                 className={c("button", "is-info", loading && "is-loading")}
                 disabled={typeof user === "undefined"}
                 onClick={() => {
+                  if (!content) return
                   setLoading(true)
                   comment({
                     variables: {

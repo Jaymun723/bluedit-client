@@ -2,6 +2,8 @@
 
 @import "node_modules/bulmaswatch/darkly/_variables.scss";
 
+$size-6: 1rem;
+$size-7: 0.75rem;
 $input-color: $grey-lighter;
 $input-border-color: lighten($button-background-color, 15);
 $input-background-color: $grey-dark;
@@ -11,6 +13,7 @@ $input-focus-border-color: $blue;
 
 @import "bulma";
 @import "bulma-pageloader";
+@import "node_modules/bulma-switch/src/sass/index.sass";
 @import "node_modules/bulmaswatch/darkly/_overrides.scss";
 
 // Fix for tabs
@@ -50,4 +53,9 @@ $input-focus-border-color: $blue;
     right: 0;
     position: absolute;
   }
+}
+
+.menu .is-active.has-text-danger {
+  background-color: $danger;
+  color: $dark !important;
 }

@@ -9,12 +9,6 @@ interface ShareButtonProps {
   small?: boolean
 }
 
-const createUrl = (part: string) => {
-  const url = new URL(window.location.href)
-  url.pathname = part
-  return url.href
-}
-
 export const ShareButton: React.FC<ShareButtonProps> = (props) => {
   const { pushNotification } = useAppNotifications()
 
@@ -22,14 +16,30 @@ export const ShareButton: React.FC<ShareButtonProps> = (props) => {
     return <button className={c("button", "is-text", !props.small && "is-medium", "is-loading")} />
   }
 
+  if (props.disabled) {
+    return (
+      <button
+        className={c("button", "is-text", !props.small && "is-medium")}
+        title="Share"
+        disabled
+      >
+        <span className="icon">
+          <ion-icon name="share-social-outline"></ion-icon>
+        </span>
+      </button>
+    )
+  }
+
   return (
-    <button
+    <a
       className={c("button", "is-text", !props.small && "is-medium")}
       title="Share"
-      disabled={props.disabled}
-      onClick={() => {
+      href={window.location.origin + props.url}
+      // disabled={props.disabled}
+      onClick={(e) => {
+        e.preventDefault()
         if (props.url) {
-          navigator.clipboard.writeText(createUrl(props.url))
+          navigator.clipboard.writeText(window.location.origin + props.url)
           pushNotification({
             text: "Link successfully copied !",
             type: AppNotificationType.SUCCESS,
@@ -42,6 +52,6 @@ export const ShareButton: React.FC<ShareButtonProps> = (props) => {
       <span className="icon">
         <ion-icon name="share-social-outline"></ion-icon>
       </span>
-    </button>
+    </a>
   )
 }

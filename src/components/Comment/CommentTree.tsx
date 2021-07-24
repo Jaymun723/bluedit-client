@@ -26,7 +26,7 @@ const getRootComment = (comments: CommentData[]) => {
   return comments.filter((c) => c.comment === null || c.comment === undefined)
 }
 
-const getChildOf = (id: string, comments: CommentData[]) => {
+const getChildrenOf = (id: string, comments: CommentData[]) => {
   return comments.filter((comment) => comment.comment && comment.comment.id === id)
 }
 
@@ -37,7 +37,7 @@ export const CommentTree: React.FC<CommentTreeProps> = (props) => {
     if (props.isRoot) {
       setComments(getRootComment(props.comments))
     } else if (props.parentId) {
-      setComments(getChildOf(props.parentId, props.comments))
+      setComments(getChildrenOf(props.parentId, props.comments))
     }
   }, [props.comments])
 
@@ -45,7 +45,7 @@ export const CommentTree: React.FC<CommentTreeProps> = (props) => {
     <>
       {comments.map((comment) => (
         <CommentPreview id={comment.id} key={comment.id} postId={props.postId}>
-          {getChildOf(comment.id, props.comments).length > 0 ? (
+          {getChildrenOf(comment.id, props.comments).length > 0 ? (
             <CommentTree comments={props.comments} postId={props.postId} parentId={comment.id} />
           ) : null}
         </CommentPreview>

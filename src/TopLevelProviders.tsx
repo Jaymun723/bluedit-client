@@ -16,11 +16,11 @@ export const TopLevelProvider: React.FC<TopLevelProviderProps> = (props) => (
     <AppNotificationsProvider>
       <ApolloProvider client={apolloClient}>
         <FeedStateProvider>
-          <PopupProvider>
-            <Suspense fallback={<PageLoader />}>
-              <BrowserRouter>{props.children}</BrowserRouter>
-            </Suspense>
-          </PopupProvider>
+          <Suspense fallback={<PageLoader />}>
+            <BrowserRouter>
+              <PopupProvider>{props.children}</PopupProvider>
+            </BrowserRouter>
+          </Suspense>
         </FeedStateProvider>
       </ApolloProvider>
     </AppNotificationsProvider>

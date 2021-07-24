@@ -64,6 +64,7 @@ interface FieldProps {
   value: string
   onChange: (value: string) => void
   required?: boolean
+  loading?: boolean
 }
 export const Field: React.FC<FieldProps> = (props) => {
   return (
@@ -71,7 +72,7 @@ export const Field: React.FC<FieldProps> = (props) => {
       <label htmlFor={props.name} className="label">
         {props.name[0].toLocaleUpperCase() + props.name.slice(1)}:
       </label>
-      <div className="control has-icons-left">
+      <div className={c("control", "has-icons-left", props.loading && "is-loading")}>
         <input
           type={props.type}
           className="input"
@@ -100,7 +101,9 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
         <button
           className={c("button", "is-fullwidth", props.loading && "is-loading")}
           type="submit"
-        />
+        >
+          {props.children || "Submit"}
+        </button>
       </div>
     </div>
   )
